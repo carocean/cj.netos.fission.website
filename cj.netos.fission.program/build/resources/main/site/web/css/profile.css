@@ -1,0 +1,56 @@
+header{
+    height: 150px !important;
+
+}
+
+.container{
+    background: #ececec !important;
+}
+.container .bottom-divider{
+    height: 210px;
+}
+header .leading{
+
+}
+header .leading a{
+    display: inline-block;
+    padding: 10px 15px 10px 15px;
+}
+header .leading img{
+    width: 20px;
+    height: 20px;
+}
+
+.face{
+    margin:10px 20px 10px 20px;
+}
+.face img{
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+.face .face-info{
+    display: inline-block;
+    margin-left: 10px;
+}
+.face .face-title{
+    font-size: 20px;
+    font-weight: bold;
+}
+.face-area,
+.face-unionid{
+    color: #666666;
+    font-size: 14px;
+}
+.face-unionid{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.face-area label,
+.face-unionid label{
+   padding-right: 2px;
+}
+.face-area span{
+    padding-right: 5px;
+}

@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MybatisBuilder.project.settings">
+    <option name="connectionInfoList">
+      <list>
+        <ConnectionInfo>
+          <option name="database" value="fission.mf" />
+          <option name="description" value="" />
+          <option name="driverClass" value="" />
+          <option name="driverLibrary" value="" />
+          <option name="driverType" value="MySQL" />
+          <option name="host" value="120.27.15.205" />
+          <option name="id" value="65728806606b4a1ba0b8646792d2723d" />
+          <option name="name" value="fission.mf" />
+          <option name="port" value="3306" />
+          <option name="url" value="" />
+          <option name="userName" value="cj" />
+        </ConnectionInfo>
+      </list>
+    </option>
+    <option name="defaultParameters">
+      <DefaultParameters>
+        <option name="renameConfig">
+          <Config>
+            <option name="mapperTypePattern" value="" />
+            <option name="exampleTypePattern" value="" />
+            <option name="sqlFileNamePattern" value="" />
+          </Config>
+        </option>
+        <option name="selectWithLockConfig">
+          <SelectWithLockConfig>
+            <option name="byPrimaryKeyWithLockOverride" value="" />
+            <option name="byExampleWithLockOverride" value="" />
+          </SelectWithLockConfig>
+        </option>
+      </DefaultParameters>
+    </option>
+    <option name="historyMap">
+      <map>
+        <entry key="JAVA_CLIENT_PACKAGE">
+          <value>
+            <list>
+              <option value="cj.netos.fission.mapper" />
+            </list>
+          </value>
+        </entry>
+        <entry key="JAVA_MODEL_PACKAGE">
+          <value>
+            <list>
+              <option value="cj.netos.fission.model" />
+            </list>
+          </value>
+        </entry>
+        <entry key="SQL_MAP_PACKAGE">
+          <value>
+            <list>
+              <option value="cj.db.mappings" />
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="lastGeneratorParamWrapper">
+      <GeneratorParamWrapper>
+        <option name="defaultTableConfigWrapper">
+          <TableConfigurationWrapper>
+            <option name="domainObjectRenamingRule">
+              <DomainObjectRenamingRule>
+                <option name="replaceString" value="" />
+                <option name="searchString" value="" />
+              </DomainObjectRenamingRule>
+            </option>
+            <option name="generatedKeyWrapper">
+              <GeneratedKeyWrapper>
+                <option name="column" value="" />
+              </GeneratedKeyWrapper>
+            </option>
+          </TableConfigurationWrapper>
+        </option>
+        <option name="javaClientConfig">
+          <JavaClientGeneratorConfiguration>
+            <option name="configurationType" value="XMLMAPPER" />
+            <option name="targetPackage" value="cj.netos.fission.mapper" />
+            <option name="targetProject" value="$PROJECT_DIR$/cj.netos.fission.program/src" />
+          </JavaClientGeneratorConfiguration>
+        </option>
+        <option name="javaModelConfig">
+          <JavaModelGeneratorConfiguration>
+            <option name="targetPackage" value="cj.netos.fission.model" />
+            <option name="targetProject" value="$PROJECT_DIR$/cj.netos.fission.openports/src" />
+          </JavaModelGeneratorConfiguration>
+        </option>
+        <option name="sqlMapConfig">
+          <SqlMapGeneratorConfiguration>
+            <option name="targetPackage" value="cj.db.mappings" />
+            <option name="targetProject" value="$PROJECT_DIR$/cj.netos.fission.program/src" />
+          </SqlMapGeneratorConfiguration>
+        </option>
+      </GeneratorParamWrapper>
+    </option>
+    <option name="tableInfoMap">
+      <map>
+        <entry key="fission.mf#allow_tag">
+          <value>
+            <TableInfo>
+              <option name="database" value="fission.mf" />
+              <option name="domainName" value="AllowTag" />
+              <option name="tableComment" value="仅充许具有指定tag的用户访问，即，仅将该用户推荐给具有指定tag的用户&#10;系统根据充许的标签到用户兴趣属性标签中去找&#10;- 默认是all标签" />
+              <option name="tableName" value="allow_tag" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="fission.mf#area">
+          <value>
+            <TableInfo>
+              <option name="database" value="fission.mf" />
+              <option name="domainName" value="Area" />
+              <option name="tableComment" value="" />
+              <option name="tableName" value="area" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="fission.mf#attachment">
+          <value>
+            <TableInfo>
+              <option name="database" value="fission.mf" />
+              <option name="domainName" value="Attachment" />
+              <option name="tableComment" value="附件" />
+              <option name="tableName" value="attachment" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="fission.mf#balance_bill">
+          <value>
+            <TableInfo>
+              <option name="database" value="fission.mf" />
+              <option name="domainName" value="BalanceBill" />
+              <option name="tableComment" value="余额充值、提出、划扣账单" />
+              <option name="tableName" value="balance_bill" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="fission.mf#cashier">
+          <value>
+            <TableInfo>
+              <option name="database" value="fission.mf" />
+              <option name="domainName" value="Cashier" />
+              <option name="tableComment" value="出纳柜台" />
+              <option name="tableName" value="cashier" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="fission.mf#cashier_balance">
+          <value>
+            <TableInfo>
+              <option name="database" value="fission.mf" />
+              <option name="domainName" value="CashierBalance" />
+              <option name="tableComment" value="用户的出纳柜台&#10;只有出纳柜台上有钱才可以出金&#10;出纳柜台的钱来自于用户的裂变余额，有两种放法：&#10;- 用户手工从余额中放金到出纳柜台&#10;- 系统根据用户设定的每日出金限制放金到出纳柜台&#10;&#10;出入金&#10;- 从用户余额入金&#10;- 向点击者出金&#10;- 退回到用户余额&#10;" />
+              <option name="tableName" value="cashier_balance" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="fission.mf#cashier_bill">
+          <value>
+            <TableInfo>
+              <option name="database" value="fission.mf" />
+              <option name="domainName" value="CashierBill" />
+              <option name="tableComment" value="出纳柜台变动账单" />
+              <option name="tableName" value="cashier_bill" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="fission.mf#fission_balance">
+          <value>
+            <TableInfo>
+              <option name="database" value="fission.mf" />
+              <option name="domainName" value="FissionBalance" />
+              <option name="tableComment" value="裂变余额&#10;" />
+              <option name="tableName" value="fission_balance" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="fission.mf#me_to_others_condition">
+          <value>
+            <TableInfo>
+              <option name="database" value="fission.mf" />
+              <option name="domainName" value="MeToOthersCondition" />
+              <option name="tableComment" value="将我推荐给他人的限定条件" />
+              <option name="tableName" value="me_to_others_condition" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="fission.mf#others_to_me_condition">
+          <value>
+            <TableInfo>
+              <option name="database" value="fission.mf" />
+              <option name="domainName" value="OthersToMeCondition" />
+              <option name="tableComment" value="推荐他人给我的限定条件" />
+              <option name="tableName" value="others_to_me_condition" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="fission.mf#pay_cashier_record">
+          <value>
+            <TableInfo>
+              <option name="database" value="fission.mf" />
+              <option name="domainName" value="PayCashierRecord" />
+              <option name="tableComment" value="出金到出纳台" />
+              <option name="tableName" value="pay_cashier_record" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="fission.mf#pay_friend_record">
+          <value>
+            <TableInfo>
+              <option name="database" value="fission.mf" />
+              <option name="domainName" value="PayFriendRecord" />
+              <option name="tableComment" value="向点击者支付" />
+              <option name="tableName" value="pay_friend_record" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="fission.mf#pay_record">
+          <value>
+            <TableInfo>
+              <option name="database" value="fission.mf" />
+              <option name="domainName" value="PayRecord" />
+              <option name="tableComment" value="购买（有偿获客）记录&#10;算法：&#10;- 查我购买到的朋友，即按payer=我&#10;- 查我都是哪些人的朋友，即按payee=我" />
+              <option name="tableName" value="pay_record" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="fission.mf#person">
+          <value>
+            <TableInfo>
+              <option name="database" value="fission.mf" />
+              <option name="domainName" value="Person" />
+              <option name="tableComment" value="人" />
+              <option name="tableName" value="person" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="fission.mf#property_tag">
+          <value>
+            <TableInfo>
+              <option name="database" value="fission.mf" />
+              <option name="domainName" value="PropertyTag" />
+              <option name="tableComment" value="用户兴趣属性标签" />
+              <option name="tableName" value="property_tag" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="fission.mf#recharge_record">
+          <value>
+            <TableInfo>
+              <option name="database" value="fission.mf" />
+              <option name="domainName" value="RechargeRecord" />
+              <option name="tableComment" value="充值到出纳台" />
+              <option name="tableName" value="recharge_record" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="fission.mf#recommend_pointer">
+          <value>
+            <TableInfo>
+              <option name="database" value="fission.mf" />
+              <option name="domainName" value="RecommendPointer" />
+              <option name="tableComment" value="记录谁读到用户表的哪个用户位置了，以用户创建时间作为标记,不论是用哪个标签查找，读过的用户时间是一致的，所以该表不涉及标签" />
+              <option name="tableName" value="recommend_pointer" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="fission.mf#recommended">
+          <value>
+            <TableInfo>
+              <option name="database" value="fission.mf" />
+              <option name="domainName" value="Recommended" />
+              <option name="tableComment" value="推荐表&#10;用于排除推荐过的朋友" />
+              <option name="tableName" value="recommended" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="fission.mf#return_cashier_record">
+          <value>
+            <TableInfo>
+              <option name="database" value="fission.mf" />
+              <option name="domainName" value="ReturnCashierRecord" />
+              <option name="tableComment" value="从出纳台退金" />
+              <option name="tableName" value="return_cashier_record" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="fission.mf#tag">
+          <value>
+            <TableInfo>
+              <option name="database" value="fission.mf" />
+              <option name="domainName" value="Tag" />
+              <option name="tableComment" value="用户标签&#10;其中all标签代表所有兴趣点" />
+              <option name="tableName" value="tag" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="fission.mf#withdraw_record">
+          <value>
+            <TableInfo>
+              <option name="database" value="fission.mf" />
+              <option name="domainName" value="WithdrawRecord" />
+              <option name="tableComment" value="从出纳台退金,即提现到零钱" />
+              <option name="tableName" value="withdraw_record" />
+            </TableInfo>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>

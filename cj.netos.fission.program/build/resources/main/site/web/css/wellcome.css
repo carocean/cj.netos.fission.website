@@ -1,0 +1,155 @@
+
+.official {
+    text-align: center;
+    padding-bottom: 40px;
+    padding-top: 40px;
+}
+.official a{
+    color: black;
+}
+.official img{
+    width: 80px;
+    height: 80px;
+}
+.official .app-name span{
+    font-size: 30px;
+    border-bottom: 1px dashed  green;
+}
+.official .kouhao1 span{
+    font-size: 14px;
+}
+.official .kouhao2 span{
+    font-size: 14px;
+    display: inline-block;
+    /*padding-left: 4em;*/
+    /*color: #3E5C9A;*/
+}
+.wrapper{
+    position: relative !important;
+}
+.mask {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(68,68,68,0.85);
+    text-align: center;
+}
+.mask .center{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    background: #f5f5f5;
+    margin: -45px 30px 0 30px;
+    padding: 10px;
+    border-radius: 8px;
+
+}
+.mask .center .mask-divider{
+    height: 6px;
+}
+.mask .center span{
+    font-size: 12px;
+    line-height: 20px;
+}
+footer{
+    background: none !important;
+    text-align: right;
+}
+.next-group{
+    padding: 4px 20px;
+    background: green;
+    display: inline-block;
+    color:white;
+    box-shadow: 0px 0px 8px #888888;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+}
+.recommends{
+    padding: 0 10px 20px 10px;
+    text-align: center;
+}
+.recommends .persons{
+    width: 370px;
+    display: inline-block;
+    text-align: center;
+}
+.recommends .person{
+    width: 160px;
+    margin: 10px;
+    display: inline-block;
+    text-align: left;
+    background: white;
+}
+.recommends .person >img{
+    width: 100%;
+   height: 200px;
+    object-fit:cover;
+}
+.recommends .person .person-yours{
+    float: right;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+.recommends .person .person-yours >li{
+    display: inline-block;
+    padding-left: 2px;
+    vertical-align: middle;
+}
+.recommends .person .person-yours >li>img{
+    width: 20px;
+    height: 20px;
+    object-fit:cover;
+    border-radius: 4px;
+}
+.recommends .person .person-yours .tips{
+    font-size: 10px;
+    vertical-align: middle;
+}
+.recommends .person .person-yours .tips .label{
+    padding-right: 2px;
+    display: inline-block;
+}
+.person-profile{
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.person-profile .nick-name{
+    font-size: 18px;
+    font-weight: bold;
+    padding-top: 10px;
+}
+.person-profile .cashier-balance{
+    font-size: 25px;
+    color: red;
+    padding-top: 2px;
+    padding-bottom: 15px;
+}
+.person-profile .cashier-balance .tip{
+    font-size: 12px;
+    color: grey;
+    display: inline-block;
+    padding-right: 5px;
+}
+.person-profile .cashier-balance label{
+    font-size: 16px;
+}
+
+.bottom{
+    margin-bottom: 128px;
+    font-size: 12px;
+    padding: 10px;
+}
+.bottom .note {
+    list-style-type:decimal;
+    padding-left: 20px;
+    padding-right: 10px;
+}
+.bottom .note li{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: #666666;
+}
