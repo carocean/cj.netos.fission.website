@@ -1,7 +1,8 @@
 package cj.netos.fission.program;
 
-import cj.netos.fission.ITagRecommendService;
+import cj.netos.fission.IRecommenderService;
 import cj.netos.fission.model.Person;
+import cj.netos.fission.model.PersonInfo;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
 import cj.studio.ecm.net.Circuit;
@@ -15,8 +16,9 @@ import cj.ultimate.util.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 /**
  * @author caroceanjofers
@@ -24,7 +26,7 @@ import java.util.Map;
 @CjService(name = "/home.html")
 public class Home implements IGatewayAppSiteWayWebView {
     @CjServiceRef
-    ITagRecommendService tagRecommendService;
+    IRecommenderService recommenderService;
 
     @Override
     public void flow(Frame frame, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
@@ -34,21 +36,22 @@ public class Home implements IGatewayAppSiteWayWebView {
         if (StringUtil.isEmpty(unionid)) {
             return;
         }
-
         Document document = resource.html("/home.html");
-        Map<Person,Boolean> persons = tagRecommendService.recommend(unionid,6);
-        printPersonList(persons,document);
+        Collection<PersonInfo> persons = recommenderService.recommend(unionid, 100);
+        printPersonList(persons, document, (String) httpFrame.session().attribute("accessToken"));
 
         circuit.content().writeBytes(document.html().getBytes());
     }
-    private void printPersonList(Map<Person,Boolean> personList, Document document) {
+
+    private void printPersonList(Collection<PersonInfo> personList, Document document, String accessToken) {
         Element ul = document.select(".persons").first();
-        Element li=ul.select(".person").first().clone();
+        Element li = ul.select(".person").first().clone();
         ul.empty();
-        for (Person person : personList.keySet()) {
-            boolean clicked=personList.get(person);
-            Element cli=li.clone();
-            cli.select(">img").attr("src",person.getAvatarUrl());
+        for (PersonInfo personInfo : personList) {
+            Person person=personInfo.getPerson();
+            Element cli = li.clone();
+            cli.attr("person", String.format("%s@gbera.netos", person.getId()));
+            cli.select(">img").attr("src", person.getAvatarUrl());
             cli.select(".nick-name").html(person.getNickName());
             ul.appendChild(cli);
         }

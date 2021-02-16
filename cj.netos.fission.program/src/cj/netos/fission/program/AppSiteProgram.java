@@ -1,7 +1,5 @@
 package cj.netos.fission.program;
 
-import cj.netos.fission.IBuyerService;
-import cj.netos.fission.IPersonRecommendBucketService;
 import cj.netos.fission.IPersonService;
 import cj.netos.fission.IRandRecommendService;
 import cj.studio.ecm.CJSystem;
@@ -28,9 +26,5 @@ public class AppSiteProgram extends GatewayAppSiteProgram {
         long cachedCount = randRecommendService.cachePersons(count);
         CJSystem.logging().info(getClass(), String.format("欢迎页用户缓冲完成，实际缓冲了：%s个", cachedCount));
 
-        CJSystem.logging().info(getClass(), String.format("准备缓冲出纳柜台有钱的用户..."));
-        IBuyerService buyerService = (IBuyerService) site.getService("buyerService");
-        cachedCount = buyerService.cacheHasCashierBalance();
-        CJSystem.logging().info(getClass(), String.format("缓冲出纳柜台有钱的用户完成，实际缓冲：%s个", cachedCount));
     }
 }

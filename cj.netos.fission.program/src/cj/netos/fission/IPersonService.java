@@ -1,7 +1,10 @@
 package cj.netos.fission;
 
+import cj.netos.fission.model.LatLng;
 import cj.netos.fission.model.Person;
 import cj.studio.ecm.net.CircuitException;
+import com.mongodb.client.AggregateIterable;
+import org.bson.Document;
 
 import java.util.List;
 
@@ -19,4 +22,17 @@ public interface IPersonService {
 
     List<Person> findByIds(List<String> unionids);
 
+    List<Person> findInCity(String province, String city,int limit,long skip);
+
+    List<Person> findInProvince(String provinceCode,int limit,long skip);
+
+    AggregateIterable<Document> findInAround(LatLng location, String radius, int limit, long skip);
+
+    AggregateIterable<Document> findInAroundByIds(LatLng location, String radiusText, List<String> ids, int limit, long skip);
+
+    List<Person> findInCityIn(String province, String city, List<String> personIds, int limit, long skip);
+
+    List<Person> findInProvinceIn(String provinceCode, List<String> personIds, int limit, long skip);
+
+    long total();
 }

@@ -1,7 +1,6 @@
 package cj.netos.fission.program;
 
 import cj.netos.fission.IRandRecommendService;
-import cj.netos.fission.ITagRecommendService;
 import cj.netos.fission.model.Person;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;

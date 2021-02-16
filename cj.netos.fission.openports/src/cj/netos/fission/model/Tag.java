@@ -19,6 +19,15 @@ public class Tag {
      * Remark: 相反的标签，此处为相反标签的标识 如：男对女(femail)，女对男(male)
      */
     private String opposite;
+    private int sort;
+
+    public int getSort() {
+        return sort;
+    }
+
+    public void setSort(int sort) {
+        this.sort = sort;
+    }
 
     public String getId() {
         return id;

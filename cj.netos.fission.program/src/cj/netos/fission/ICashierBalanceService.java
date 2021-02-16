@@ -1,5 +1,7 @@
 package cj.netos.fission;
 
+import cj.netos.fission.model.CashierBalance;
+
 import java.util.List;
 
 public interface ICashierBalanceService {
@@ -10,5 +12,7 @@ public interface ICashierBalanceService {
      * @return
      */
     List<String> pagePersonByCashierOpening(int limit, int skip);
+
+    CashierBalance getBalance(String unionid);
 
 }

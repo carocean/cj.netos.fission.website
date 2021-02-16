@@ -15,12 +15,29 @@ public class Recommended {
      * Remark: 推荐给推荐者的人
      */
     private String person;
-
+    private  boolean isWaitingTask;
+    private String didTask;
     /**
      * Column: ctime
      * Remark: 什么时候推荐的
      */
     private String ctime;
+
+    public boolean isWaitingTask() {
+        return isWaitingTask;
+    }
+
+    public void setWaitingTask(boolean waitingTask) {
+        isWaitingTask = waitingTask;
+    }
+
+    public String getDidTask() {
+        return didTask;
+    }
+
+    public void setDidTask(String didTask) {
+        this.didTask = didTask;
+    }
 
     public String getRecommender() {
         return recommender;

@@ -4,45 +4,49 @@ package cj.netos.fission.model;
  * Table: area
  */
 public class Area {
-    /**
-     * Column: id
-     * Remark: 标识，如： around1000 around5000 district city privence  
-     */
-    private String id;
+    String person;
+    String areaType;
+    String areaCode;
+    String areaTitle;
+    String direct;
 
-    /**
-     * Column: label
-     * Remark: 周边1公里 周边5公里 所在区县 所在市 所在省
-     */
-    private String label;
-
-    /**
-     * Column: value
-     * Remark: 如1000米，5000米，也可能没有值，如所在市，但也可以指定区域，如新郑市
-     */
-    private String value;
-
-    public String getId() {
-        return id;
+    public String getPerson() {
+        return person;
     }
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
+    public void setPerson(String person) {
+        this.person = person;
     }
 
-    public String getLabel() {
-        return label;
+    public String getAreaType() {
+        return areaType;
     }
 
-    public void setLabel(String label) {
-        this.label = label == null ? null : label.trim();
+    public void setAreaType(String areaType) {
+        this.areaType = areaType;
     }
 
-    public String getValue() {
-        return value;
+    public String getAreaCode() {
+        return areaCode;
     }
 
-    public void setValue(String value) {
-        this.value = value == null ? null : value.trim();
+    public void setAreaCode(String areaCode) {
+        this.areaCode = areaCode;
+    }
+
+    public String getAreaTitle() {
+        return areaTitle;
+    }
+
+    public void setAreaTitle(String areaTitle) {
+        this.areaTitle = areaTitle;
+    }
+
+    public String getDirect() {
+        return direct;
+    }
+
+    public void setDirect(String direct) {
+        this.direct = direct;
     }
 }

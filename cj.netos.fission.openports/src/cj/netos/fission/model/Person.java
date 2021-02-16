@@ -1,5 +1,9 @@
 package cj.netos.fission.model;
 
+import cj.ultimate.gson2.com.google.gson.Gson;
+
+import java.util.Map;
+
 /**
  * Table: person
  */
@@ -57,7 +61,7 @@ public class Person {
     /**
      * Column: location
      */
-    private String location;
+    private LatLng location;
 
     /**
      * Column: language
@@ -70,6 +74,35 @@ public class Person {
      */
     private String ctime;
     private String openid;
+
+    public static Person parse(Map<String, Object> subject, Map<String, Object> token) {
+        Person person = new Person();
+        person.id = (String) subject.get("accountCode");
+        person.nickName = (String) subject.get("accountCode");
+        person.avatarUrl = (String) subject.get("avatar");
+        String sex=(String) subject.get("sex");
+        int gender=0;
+        if ("male".equals(sex)) {
+            gender=1;
+        }else if ("female".equals(sex)) {
+            gender=2;
+        }
+
+        person.gender = gender;
+        person.country = (String) subject.get("country");
+        person.province = (String) subject.get("province");
+        person.district = (String) subject.get("district");
+        person.town = (String) subject.get("town");
+        person.language = (String) subject.get("language");
+        person.ctime = (String) subject.get("ctime");
+        person.openid = (String) subject.get("openid");
+        return person;
+    }
+
+    public static Person load(Map<String, Object> tuple) {
+        String json = new Gson().toJson(tuple);
+        return new Gson().fromJson(json, Person.class);
+    }
 
     public String getOpenid() {
         return openid;
@@ -151,12 +184,12 @@ public class Person {
         this.town = town == null ? null : town.trim();
     }
 
-    public String getLocation() {
+    public LatLng getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
-        this.location = location == null ? null : location.trim();
+    public void setLocation(LatLng location) {
+        this.location = location;
     }
 
     public String getLanguage() {

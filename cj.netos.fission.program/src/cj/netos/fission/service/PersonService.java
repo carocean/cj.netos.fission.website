@@ -5,15 +5,18 @@ import cj.lns.chip.sos.cube.framework.IQuery;
 import cj.lns.chip.sos.cube.framework.TupleDocument;
 import cj.netos.fission.AbstractService;
 import cj.netos.fission.IPersonService;
+import cj.netos.fission.model.LatLng;
 import cj.netos.fission.model.Person;
 import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.net.CircuitException;
 import cj.ultimate.gson2.com.google.gson.Gson;
+import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.ListIndexesIterable;
 import org.bson.Document;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -86,5 +89,110 @@ public class PersonService extends AbstractService implements IPersonService {
             persons.add(document.tuple());
         }
         return persons;
+    }
+
+    @Override
+    public List<Person> findInCity(String province, String city, int limit, long skip) {
+        String cjql = String.format("select {'tuple':'*'}.limit(%s).skip(%s).sort({'tuple.ctime':-1}) from tuple %s %s where {'tuple.province':'%s','tuple.city':'%s'}", limit, skip, _KEY_COL, Person.class.getName(), province, city);
+        IQuery<Person> query = getHome().createQuery(cjql);
+        List<IDocument<Person>> documents = query.getResultList();
+        List<Person> persons = new ArrayList<>();
+        for (IDocument<Person> document : documents) {
+            persons.add(document.tuple());
+        }
+        return persons;
+    }
+
+    @Override
+    public List<Person> findInCityIn(String province, String city, List<String> personIds, int limit, long skip) {
+        String cjql = String.format("select {'tuple':'*'}.limit(%s).skip(%s).sort({'tuple.ctime':-1}) from tuple %s %s where {'tuple.province':'%s','tuple.city':'%s','tuple.id':%s}", limit, skip, _KEY_COL, Person.class.getName(), province, city, new Gson().toJson(personIds));
+        IQuery<Person> query = getHome().createQuery(cjql);
+        List<IDocument<Person>> documents = query.getResultList();
+        List<Person> persons = new ArrayList<>();
+        for (IDocument<Person> document : documents) {
+            persons.add(document.tuple());
+        }
+        return persons;
+    }
+
+    @Override
+    public List<Person> findInProvince(String province, int limit, long skip) {
+        String cjql = String.format("select {'tuple':'*'}.limit(%s).skip(%s).sort({'tuple.ctime':-1}) from tuple %s %s where {'tuple.province':'%s'}", limit, skip, _KEY_COL, Person.class.getName(), province);
+        IQuery<Person> query = getHome().createQuery(cjql);
+        List<IDocument<Person>> documents = query.getResultList();
+        List<Person> persons = new ArrayList<>();
+        for (IDocument<Person> document : documents) {
+            persons.add(document.tuple());
+        }
+        return persons;
+    }
+
+    @Override
+    public long total() {
+        return getHome().tupleCount(_KEY_COL);
+    }
+
+    @Override
+    public List<Person> findInProvinceIn(String province, List<String> personIds, int limit, long skip) {
+        String cjql = String.format("select {'tuple':'*'}.limit(%s).skip(%s).sort({'tuple.ctime':-1}) from tuple %s %s where {'tuple.province':'%s','tuple.id':%s}", limit, skip, _KEY_COL, Person.class.getName(), province, new Gson().toJson(personIds));
+        IQuery<Person> query = getHome().createQuery(cjql);
+        List<IDocument<Person>> documents = query.getResultList();
+        List<Person> persons = new ArrayList<>();
+        for (IDocument<Person> document : documents) {
+            persons.add(document.tuple());
+        }
+        return persons;
+    }
+
+    @Override
+    public AggregateIterable<Document> findInAround(LatLng location, String radiusText, int limit, long skip) {
+        LatLng latLng = location;
+        double radius = Double.valueOf(radiusText);
+        String json = String.format("{" +
+                "'$geoNear':{" +
+                "'near':{'type':'Point','coordinates':%s}," +
+                "'distanceField':'tuple.distance'," +
+                "'maxDistance':%s," +
+                "'spherical':true" +
+                "}" +
+                "}", location.toCoordinate(), radius);
+
+        List<Document> pipeline = new ArrayList<>();
+        pipeline.add(Document.parse(json));
+        String limitjson = String.format("{'$limit':%s}", limit);
+        String skipjson = String.format("{'$skip':%s}", skip);
+        String sortjson = String.format("{'$sort':{'tuple.distance':1,'tuple.ctime':-1}}");
+        pipeline.add(Document.parse(limitjson));
+        pipeline.add(Document.parse(skipjson));
+        pipeline.add(Document.parse(sortjson));
+        AggregateIterable<Document> it = getHome().aggregate(_KEY_COL, pipeline);
+        return it;
+    }
+
+    @Override
+    public AggregateIterable<Document> findInAroundByIds(LatLng location, String radiusText, List<String> ids, int limit, long skip) {
+        LatLng latLng = location;
+        double radius = Double.valueOf(radiusText);
+        String json = String.format("{" +
+                "'$geoNear':{" +
+                "'near':{'type':'Point','coordinates':%s}," +
+                "'distanceField':'tuple.distance'," +
+                "'maxDistance':%s," +
+                "'spherical':true" +
+                "}" +
+                "}", location.toCoordinate(), radius);
+
+        List<Document> pipeline = new ArrayList<>();
+        pipeline.add(Document.parse(json));
+        String matchjson = String.format("{'$match':{'tuple.id':{'$in':%s}}}", new Gson().toJson(ids));
+        pipeline.add(Document.parse(matchjson));
+        String limitjson = String.format("{'$limit':%s}", limit);
+        String skipjson = String.format("{'$skip':%s}", skip);
+        String sortjson = String.format("{'$sort':{'tuple.distance':1,'tuple.ctime':-1}}");
+        pipeline.add(Document.parse(limitjson));
+        pipeline.add(Document.parse(skipjson));
+        pipeline.add(Document.parse(sortjson));
+        AggregateIterable<Document> it = getHome().aggregate(_KEY_COL, pipeline);
+        return it;
     }
 }
