@@ -16,6 +16,8 @@ import cj.ultimate.util.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
@@ -53,6 +55,9 @@ public class Home implements IGatewayAppSiteWayWebView {
             cli.attr("person", String.format("%s@gbera.netos", person.getId()));
             cli.select(">img").attr("src", person.getAvatarUrl());
             cli.select(".nick-name").html(person.getNickName());
+            long balance=personInfo.getBalance();
+            BigDecimal decimal=new BigDecimal(balance).divide(new BigDecimal("100.00"),2, RoundingMode.DOWN);
+            cli.select(".cashier-balance .balance-v").html(decimal.toString());
             ul.appendChild(cli);
         }
     }
