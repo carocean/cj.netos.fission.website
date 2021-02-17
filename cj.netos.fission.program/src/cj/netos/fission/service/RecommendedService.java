@@ -41,7 +41,7 @@ public class RecommendedService extends AbstractService implements IRecommendedS
 
     @Override
     public List<String> listIncludeIds(List<String> idList) {
-        String cjql = String.format("select {'tuple.person':1} from tuple %s %s where {'tuple.person':{'$in':%s}}", _KEY_COL, String.class.getName(), new Gson().toJson(idList));
+        String cjql = String.format("select {'tuple.person':1}.distinct() from tuple %s %s where {'tuple.person':{'$in':%s}}", _KEY_COL, String.class.getName(), new Gson().toJson(idList));
         IQuery<String> query = getHome().createQuery(cjql);
         List<IDocument<String>> documents = query.getResultList();
         List<String> exists = new ArrayList<>();

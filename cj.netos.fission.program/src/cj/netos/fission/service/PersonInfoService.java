@@ -22,6 +22,8 @@ public class PersonInfoService implements IPersonInfoService {
     IAreaService areaService;
     @CjServiceRef
     ICashierBalanceService cashierBalanceService;
+    @CjServiceRef
+    ICashierService cashierService;
 
     @Override
     public long totalPerson() {
@@ -43,6 +45,7 @@ public class PersonInfoService implements IPersonInfoService {
             return null;
         }
         String unionid = person.getId();
+        Cashier cashier = cashierService.getCashier(unionid);
         List<Tag> propTags = tagService.listPropTag(unionid);
         List<LimitTag> limitTags = tagService.listLimitTag(unionid);
         List<String> payerTagIds = new ArrayList<>();
@@ -80,6 +83,7 @@ public class PersonInfoService implements IPersonInfoService {
         }
         PersonInfo info = new PersonInfo();
         info.setPerson(person);
+        info.setCashier(cashier);
         info.setPropTags(propTags);
         info.setPayerArea(payerArea);
         info.setPayerTags(payerTags);
@@ -123,7 +127,7 @@ public class PersonInfoService implements IPersonInfoService {
 
     @Override
     public Set<String> searchPersonInPropTagsByPage(String personId, List<String> tagIds, int limit, long skip) {
-        return tagService.searchPersonInPropTagsByPage(personId, tagIds,limit,skip);
+        return tagService.searchPersonInPropTagsByPage(personId, tagIds, limit, skip);
     }
 
     @Override
@@ -148,11 +152,11 @@ public class PersonInfoService implements IPersonInfoService {
         return personInfos;
     }
 
-    private List<PersonInfo> searchByCity(String cityCode, int limit, long skip) {
-        String[] arr = cityCode.split("·");
-        String province = arr[0];
-        String city = arr[1];
-        List<Person> personList = personService.findInCity(province, city, limit, skip);
+    private List<PersonInfo> searchByCity(String cityCodeFull, int limit, long skip) {
+        String[] arr = cityCodeFull.split("·");
+        String provinceCode = arr[0];
+        String cityCode = arr[1];
+        List<Person> personList = personService.findInCity(provinceCode, cityCode, limit, skip);
         List<PersonInfo> infos = new ArrayList<>();
         for (Person person : personList) {
             PersonInfo info = loadPersonInfo(person);
@@ -161,11 +165,11 @@ public class PersonInfoService implements IPersonInfoService {
         return infos;
     }
 
-    private List<PersonInfo> searchByCityIn(String cityCode, List<String> personIds, int limit, long skip) {
-        String[] arr = cityCode.split("·");
-        String province = arr[0];
-        String city = arr[1];
-        List<Person> personList = personService.findInCityIn(province, city, personIds, limit, skip);
+    private List<PersonInfo> searchByCityIn(String cityCodeFull, List<String> personIds, int limit, long skip) {
+        String[] arr = cityCodeFull.split("·");
+        String provinceCode = arr[0];
+        String cityCode = arr[1];
+        List<Person> personList = personService.findInCityIn(provinceCode, cityCode, personIds, limit, skip);
         List<PersonInfo> infos = new ArrayList<>();
         for (Person person : personList) {
             PersonInfo info = loadPersonInfo(person);

@@ -45,13 +45,9 @@ $(document).ready(function(){
         window.location.href='pages/profile.html';
     });
 
-    $('.person>img,.person-profile').on('click',function () {
-        var li=$(this).parents('.person');
+    $('.person').on('click',function () {
+        var li=$(this);
         var person=li.attr('person');
-        $.get('./snatchEnvelope.service',{'person':person},function (data) {
-            alert(person);
-        }).error(function (e) {
-            alert(e);
-        })
+        window.location.href='./pages/red-bag.html?person='+person;
     });
 });

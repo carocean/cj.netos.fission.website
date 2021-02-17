@@ -42,22 +42,22 @@ public class Person {
      * Column: province
      */
     private String province;
-
+    private String provinceCode;
     /**
      * Column: city
      */
     private String city;
-
+    private String cityCode;
     /**
      * Column: district
      */
     private String district;
-
+    private String districtCode;
     /**
      * Column: town
      */
     private String town;
-
+    private String townCode;
     /**
      * Column: location
      */
@@ -78,7 +78,7 @@ public class Person {
     public static Person parse(Map<String, Object> subject, Map<String, Object> token) {
         Person person = new Person();
         person.id = (String) subject.get("accountCode");
-        person.nickName = (String) subject.get("accountCode");
+        person.nickName = (String) subject.get("nickName");
         person.avatarUrl = (String) subject.get("avatar");
         String sex=(String) subject.get("sex");
         int gender=0;
@@ -189,7 +189,7 @@ public class Person {
     }
 
     public void setLocation(LatLng location) {
-        this.location = location;
+        this.location = location ;
     }
 
     public String getLanguage() {
@@ -198,6 +198,38 @@ public class Person {
 
     public void setLanguage(String language) {
         this.language = language == null ? null : language.trim();
+    }
+
+    public String getProvinceCode() {
+        return provinceCode;
+    }
+
+    public void setProvinceCode(String provinceCode) {
+        this.provinceCode = provinceCode;
+    }
+
+    public String getCityCode() {
+        return cityCode;
+    }
+
+    public void setCityCode(String cityCode) {
+        this.cityCode = cityCode;
+    }
+
+    public String getDistrictCode() {
+        return districtCode;
+    }
+
+    public void setDistrictCode(String districtCode) {
+        this.districtCode = districtCode;
+    }
+
+    public String getTownCode() {
+        return townCode;
+    }
+
+    public void setTownCode(String townCode) {
+        this.townCode = townCode;
     }
 
     public String getCtime() {

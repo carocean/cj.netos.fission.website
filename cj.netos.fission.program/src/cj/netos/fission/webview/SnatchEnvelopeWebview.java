@@ -37,6 +37,10 @@ public class SnatchEnvelopeWebview implements IGatewayAppSiteWayWebView , IServi
         if (StringUtil.isEmpty(person)) {
             throw new CircuitException("404","未指定person参数。");
         }
+        snatchEnvelope(person,frame,circuit);
+    }
+
+    private void snatchEnvelope(String person, Frame frame, Circuit circuit) throws CircuitException {
         HttpFrame httpFrame=(HttpFrame)frame;
         ISession session=httpFrame.session();
         String accessToken= (String) session.attribute("accessToken");
@@ -52,7 +56,7 @@ public class SnatchEnvelopeWebview implements IGatewayAppSiteWayWebView , IServi
             Response response = call.execute();
             String json = response.body().string();
             Map<String, Object> map = new Gson().fromJson(json, HashMap.class);
-           int status= Double.valueOf(map.get("status")+"").intValue();
+            int status= Double.valueOf(map.get("status")+"").intValue();
             if(200!=status){
                 throw new CircuitException(status+"",(String)map.get("message"));
             }

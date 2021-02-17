@@ -6,11 +6,20 @@ public class PersonInfo {
     Person person;
     long balance;
     double distance;
+    Cashier cashier;
     List<Tag> propTags;
     List<Tag> payerTags;
     List<Tag> payeeTags;
     Area payerArea;
     Area payeeArea;
+
+    public Cashier getCashier() {
+        return cashier;
+    }
+
+    public void setCashier(Cashier cashier) {
+        this.cashier = cashier;
+    }
 
     public double getDistance() {
         return distance;

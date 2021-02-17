@@ -92,8 +92,8 @@ public class PersonService extends AbstractService implements IPersonService {
     }
 
     @Override
-    public List<Person> findInCity(String province, String city, int limit, long skip) {
-        String cjql = String.format("select {'tuple':'*'}.limit(%s).skip(%s).sort({'tuple.ctime':-1}) from tuple %s %s where {'tuple.province':'%s','tuple.city':'%s'}", limit, skip, _KEY_COL, Person.class.getName(), province, city);
+    public List<Person> findInCity(String provinceCode, String cityCode, int limit, long skip) {
+        String cjql = String.format("select {'tuple':'*'}.limit(%s).skip(%s).sort({'tuple.ctime':-1}) from tuple %s %s where {'tuple.provinceCode':'%s','tuple.cityCode':'%s'}", limit, skip, _KEY_COL, Person.class.getName(), provinceCode, cityCode);
         IQuery<Person> query = getHome().createQuery(cjql);
         List<IDocument<Person>> documents = query.getResultList();
         List<Person> persons = new ArrayList<>();
@@ -104,8 +104,8 @@ public class PersonService extends AbstractService implements IPersonService {
     }
 
     @Override
-    public List<Person> findInCityIn(String province, String city, List<String> personIds, int limit, long skip) {
-        String cjql = String.format("select {'tuple':'*'}.limit(%s).skip(%s).sort({'tuple.ctime':-1}) from tuple %s %s where {'tuple.province':'%s','tuple.city':'%s','tuple.id':%s}", limit, skip, _KEY_COL, Person.class.getName(), province, city, new Gson().toJson(personIds));
+    public List<Person> findInCityIn(String provinceCode, String cityCode, List<String> personIds, int limit, long skip) {
+        String cjql = String.format("select {'tuple':'*'}.limit(%s).skip(%s).sort({'tuple.ctime':-1}) from tuple %s %s where {'tuple.provinceCode':'%s','tuple.cityCode':'%s','tuple.id':%s}", limit, skip, _KEY_COL, Person.class.getName(), provinceCode, cityCode, new Gson().toJson(personIds));
         IQuery<Person> query = getHome().createQuery(cjql);
         List<IDocument<Person>> documents = query.getResultList();
         List<Person> persons = new ArrayList<>();
@@ -116,8 +116,8 @@ public class PersonService extends AbstractService implements IPersonService {
     }
 
     @Override
-    public List<Person> findInProvince(String province, int limit, long skip) {
-        String cjql = String.format("select {'tuple':'*'}.limit(%s).skip(%s).sort({'tuple.ctime':-1}) from tuple %s %s where {'tuple.province':'%s'}", limit, skip, _KEY_COL, Person.class.getName(), province);
+    public List<Person> findInProvince(String provinceCode, int limit, long skip) {
+        String cjql = String.format("select {'tuple':'*'}.limit(%s).skip(%s).sort({'tuple.ctime':-1}) from tuple %s %s where {'tuple.provinceCode':'%s'}", limit, skip, _KEY_COL, Person.class.getName(), provinceCode);
         IQuery<Person> query = getHome().createQuery(cjql);
         List<IDocument<Person>> documents = query.getResultList();
         List<Person> persons = new ArrayList<>();
@@ -133,8 +133,8 @@ public class PersonService extends AbstractService implements IPersonService {
     }
 
     @Override
-    public List<Person> findInProvinceIn(String province, List<String> personIds, int limit, long skip) {
-        String cjql = String.format("select {'tuple':'*'}.limit(%s).skip(%s).sort({'tuple.ctime':-1}) from tuple %s %s where {'tuple.province':'%s','tuple.id':%s}", limit, skip, _KEY_COL, Person.class.getName(), province, new Gson().toJson(personIds));
+    public List<Person> findInProvinceIn(String provinceCode, List<String> personIds, int limit, long skip) {
+        String cjql = String.format("select {'tuple':'*'}.limit(%s).skip(%s).sort({'tuple.ctime':-1}) from tuple %s %s where {'tuple.provinceCode':'%s','tuple.id':%s}", limit, skip, _KEY_COL, Person.class.getName(), provinceCode, new Gson().toJson(personIds));
         IQuery<Person> query = getHome().createQuery(cjql);
         List<IDocument<Person>> documents = query.getResultList();
         List<Person> persons = new ArrayList<>();

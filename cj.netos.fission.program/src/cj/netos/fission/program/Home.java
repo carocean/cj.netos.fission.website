@@ -53,7 +53,7 @@ public class Home implements IGatewayAppSiteWayWebView {
             Person person=personInfo.getPerson();
             Element cli = li.clone();
             cli.attr("person", String.format("%s@gbera.netos", person.getId()));
-            cli.select(">img").attr("src", person.getAvatarUrl());
+            cli.select(".img-box > img").attr("src", person.getAvatarUrl());
             cli.select(".nick-name").html(person.getNickName());
             long balance=personInfo.getBalance();
             BigDecimal decimal=new BigDecimal(balance).divide(new BigDecimal("100.00"),2, RoundingMode.DOWN);

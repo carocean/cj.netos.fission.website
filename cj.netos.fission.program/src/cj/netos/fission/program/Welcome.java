@@ -38,7 +38,7 @@ public class Welcome implements IGatewayAppSiteWayWebView {
         ul.empty();
 		for (Person person : personList) {
 			Element cli=li.clone();
-			cli.select(">img").attr("src",person.getAvatarUrl());
+			cli.select(".img-box >img").attr("src",person.getAvatarUrl());
 			cli.select(".nick-name").html(person.getNickName());
 			ul.appendChild(cli);
 		}

@@ -22,7 +22,7 @@ public interface IPersonService {
 
     List<Person> findByIds(List<String> unionids);
 
-    List<Person> findInCity(String province, String city,int limit,long skip);
+    List<Person> findInCity(String provinceCode, String cityCode,int limit,long skip);
 
     List<Person> findInProvince(String provinceCode,int limit,long skip);
 
@@ -30,7 +30,7 @@ public interface IPersonService {
 
     AggregateIterable<Document> findInAroundByIds(LatLng location, String radiusText, List<String> ids, int limit, long skip);
 
-    List<Person> findInCityIn(String province, String city, List<String> personIds, int limit, long skip);
+    List<Person> findInCityIn(String provinceCode, String cityCode, List<String> personIds, int limit, long skip);
 
     List<Person> findInProvinceIn(String provinceCode, List<String> personIds, int limit, long skip);
 
