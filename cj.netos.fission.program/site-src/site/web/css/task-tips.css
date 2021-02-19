@@ -1,0 +1,27 @@
+.task-center{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -120px;
+    width: 240px;
+}
+.task-center .task-tips{
+    font-size: 14px;
+    margin-bottom: 30px;
+    background: yellow;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 8px #888888;
+}
+.task-center .task-close{
+    text-align: center;
+}
+.task-center .task-close span {
+    display: inline-block;
+    padding: 8px 40px;
+    border-radius: 4px;
+    background: green;
+    color: white;
+    box-shadow: 0px 0px 8px #888888;
+}

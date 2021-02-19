@@ -2,7 +2,6 @@ package cj.netos.fission.webview;
 
 import cj.netos.fission.IPersonService;
 import cj.netos.fission.IRandRecommendService;
-import cj.netos.fission.WechatUserInfo;
 import cj.netos.fission.model.Person;
 import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.IServiceAfter;
@@ -20,8 +19,6 @@ import cj.ultimate.gson2.com.google.gson.Gson;
 import cj.ultimate.util.StringUtil;
 import okhttp3.*;
 
-import java.io.IOException;
-import java.net.HttpCookie;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -107,7 +104,8 @@ public class WXOauth2Code implements IGatewayAppSiteWayWebView, IServiceAfter {
         HttpFrame httpFrame= (HttpFrame) frame;
         httpFrame.session().attribute("unionid",unionid);
         httpFrame.session().attribute("accessToken",accessToken);
-        resource.redirect(String.format("%s/home.html",frame.rootPath()),circuit);
+        String url=String.format("%s/home.html?state=%s",frame.rootPath(),frame.parameter("state"));
+        resource.redirect(url,circuit);
     }
 
 

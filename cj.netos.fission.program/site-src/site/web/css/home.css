@@ -3,122 +3,226 @@
     padding-bottom: 40px;
     padding-top: 40px;
 }
-.official a{
+
+.official a {
     color: black;
 }
-.official img{
+
+.official img {
     width: 80px;
     height: 80px;
 }
-.official .app-name span{
+
+.official .app-name span {
     font-size: 30px;
-    border-bottom: 1px dashed  green;
+    border-bottom: 1px dashed green;
 }
-.official .kouhao1 span{
+
+.official .kouhao1 span {
     font-size: 14px;
 }
-.official .kouhao2 span{
+
+.official .kouhao2 span {
     font-size: 14px;
     display: inline-block;
     /*padding-left: 4em;*/
     /*color: #3E5C9A;*/
 }
 
-footer{
+footer {
     background: none !important;
     text-align: right;
 }
-.next-group{
+
+.next-group {
     padding: 4px 20px;
     background: green;
-    display: inline-block;
-    color:white;
+    color: white;
     box-shadow: 0px 0px 8px #888888;
     border-bottom-left-radius: 4px;
     border-top-left-radius: 4px;
+    display: none;
 }
-.recommends{
+.panel-dialog {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background: #f5f5f5;
+    display: none;
+    /*border-radius: 8px;*/
+    box-shadow: 0px 0px 8px #888888;
+}
+.panel-dialog .dialog-toolbar{
+    text-align: right;
+    position: absolute;
+    top: 7px;
+    right: 0;
+}
+.panel-dialog .dialog-toolbar span{
+    display: inline-block;
+    padding: 5px 15px;
+    color: red;
+    font-size: 20px;
+}
+.panel-dialog iframe{
+    border: 0;
+    height: 100%;
+    width: 100%;
+    background: #f5f5f5;
+}
+.recommends {
     padding: 0 10px 20px 10px;
     text-align: center;
 }
-.recommends .persons{
+
+.recommends .persons {
     width: 370px;
     display: inline-block;
-    text-align: center;
+    text-align: left;
 }
-.recommends .person{
+
+.recommends .person {
     width: 160px;
     margin: 10px;
     display: inline-block;
     text-align: left;
     background: white;
+    border-radius: 4px;
+    position: relative;
 }
-.recommends .person >img{
+.recommends .person .person-mask {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(68, 68, 68,0.8);
+    text-align: center;
+}
+.recommends .person .person-mask span {
+    display: inline-block;
+    padding: 5px 20px;
+    background: #666666;
+    color: #222222;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -25px;
+    margin-left: -40px;
+    border-radius: 8px;
+}
+.recommends .person .img-box{
+    position: relative;
+}
+.recommends .person .img-box .redbag{
+    position: absolute;
+    bottom: -10px;
+    left: 0;
+    right: 0;
+    height: 30px;
+}
+.recommends .person .img-box .redbag img[bk]{
     width: 100%;
-   height: 200px;
-    object-fit:cover;
+    height: 100%;
+    object-fit: fill;
 }
-.recommends .person .person-yours{
+.recommends .person .img-box .redbag img[snap]{
+    position: absolute;
+    left: 50%;
+    width: 60px;
+    height: 60px;
+    margin-left: -30px;
+    bottom: -5px;
+    object-fit: cover;
+}
+.recommends .person .img-box > img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+.recommends .person .person-box{
+    margin-top: 10px;
+}
+.recommends .person .person-yours {
     float: right;
     margin-bottom: 10px;
     margin-right: 10px;
 }
-.recommends .person .person-yours >li{
+
+.recommends .person .person-yours > li {
     display: inline-block;
     padding-left: 2px;
     vertical-align: middle;
 }
-.recommends .person .person-yours >li>img{
+
+.recommends .person .person-yours > li > img {
     width: 20px;
     height: 20px;
-    object-fit:cover;
+    object-fit: cover;
     border-radius: 4px;
 }
-.recommends .person .person-yours .tips{
+
+.recommends .person .person-yours .tips {
     font-size: 10px;
     vertical-align: middle;
 }
-.recommends .person .person-yours .tips .label{
+
+.recommends .person .person-yours .tips .label {
     padding-right: 2px;
     display: inline-block;
 }
-.person-profile{
+
+.person-profile {
     padding-left: 10px;
     padding-right: 10px;
 }
-.person-profile .nick-name{
+
+.person-profile .nick-name {
     font-size: 18px;
     font-weight: bold;
     padding-top: 10px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
-.person-profile .cashier-balance{
+
+.person-profile .cashier-balance {
     font-size: 25px;
     color: red;
     padding-top: 2px;
-    padding-bottom: 15px;
+    padding-bottom: 10px;
+    position: relative;
 }
-.person-profile .cashier-balance .tip{
+
+.person-profile .cashier-balance .tip {
     font-size: 12px;
     color: grey;
     display: inline-block;
     padding-right: 5px;
 }
-.person-profile .cashier-balance label{
+
+.person-profile .cashier-balance label {
     font-size: 16px;
 }
-
-.bottom{
+.bottom {
     margin-bottom: 128px;
     font-size: 12px;
     padding: 10px;
 }
+
 .bottom .note {
-    list-style-type:decimal;
+    list-style-type: decimal;
     padding-left: 20px;
     padding-right: 10px;
 }
-.bottom .note li{
-    padding-top: 5px;
-    padding-bottom: 5px;
+
+.bottom .note li {
+    padding-top: 1px;
+    padding-bottom: 1px;
     color: #666666;
 }

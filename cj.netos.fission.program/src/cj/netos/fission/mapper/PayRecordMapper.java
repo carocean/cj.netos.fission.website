@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface PayRecordMapper {
+
     /**
      * @mbg.generated generated automatically, do not modify!
      */
@@ -60,4 +61,12 @@ public interface PayRecordMapper {
      * @mbg.generated generated automatically, do not modify!
      */
     int updateByPrimaryKey(PayRecord record);
+
+    List<PayRecord> pagePayee(@Param(value = "payer") String payer, @Param(value = "limit") int limit, @Param(value = "offset") int offset);
+
+    long totalPayee(@Param(value = "payer") String payer);
+
+    long sumPayeeAmount(@Param(value = "payer") String payer);
+
+    long totalPayerAmountBetown(@Param(value = "payee") String payee, @Param(value = "begin") String begin,@Param(value = "end")  String end);
 }

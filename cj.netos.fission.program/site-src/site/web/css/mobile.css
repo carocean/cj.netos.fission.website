@@ -9,6 +9,17 @@ header h2{
     display: inline-block;
     font-size: 20px;
 }
+header .leading{
+
+}
+header .leading a{
+    display: inline-block;
+    padding: 10px 15px 10px 15px;
+}
+header .leading img{
+    width: 20px;
+    height: 20px;
+}
 header .actions{
     float: right;
     margin-top:  8px;

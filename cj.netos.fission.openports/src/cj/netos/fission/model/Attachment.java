@@ -7,7 +7,7 @@ public class Attachment {
     /**
      * Column: id
      */
-    private String id;
+    private String person;
 
     /**
      * Column: src
@@ -15,27 +15,22 @@ public class Attachment {
     private String src;
 
     /**
-     * Column: person
-     */
-    private String person;
-
-    /**
      * Column: type
      * Remark: image图片 video视频 qrcode二维码
      */
     private String type;
-
+    private String note;
     /**
      * Column: ctime
      */
     private String ctime;
 
-    public String getId() {
-        return id;
+    public String getPerson() {
+        return person;
     }
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
+    public void setPerson(String person) {
+        this.person = person;
     }
 
     public String getSrc() {
@@ -43,15 +38,7 @@ public class Attachment {
     }
 
     public void setSrc(String src) {
-        this.src = src == null ? null : src.trim();
-    }
-
-    public String getPerson() {
-        return person;
-    }
-
-    public void setPerson(String person) {
-        this.person = person == null ? null : person.trim();
+        this.src = src;
     }
 
     public String getType() {
@@ -59,7 +46,15 @@ public class Attachment {
     }
 
     public void setType(String type) {
-        this.type = type == null ? null : type.trim();
+        this.type = type;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
     public String getCtime() {
@@ -67,6 +62,6 @@ public class Attachment {
     }
 
     public void setCtime(String ctime) {
-        this.ctime = ctime == null ? null : ctime.trim();
+        this.ctime = ctime;
     }
 }

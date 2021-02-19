@@ -20,7 +20,7 @@ import okhttp3.Response;
 import java.util.HashMap;
 import java.util.Map;
 
-@CjService(name = "/snatchEnvelope.service")
+@CjService(name = "/pages/snatchEnvelope.service")
 public class SnatchEnvelopeWebview implements IGatewayAppSiteWayWebView , IServiceAfter {
     String cashierReceiptUrl;
     OkHttpClient client;
@@ -60,6 +60,11 @@ public class SnatchEnvelopeWebview implements IGatewayAppSiteWayWebView , IServi
             if(200!=status){
                 throw new CircuitException(status+"",(String)map.get("message"));
             }
+            json= (String) map.get("dataText");
+            String id = new Gson().fromJson(json,String.class);
+            map = new HashMap<>();
+            map.put("id",id);
+            circuit.content().writeBytes(new Gson().toJson(map).getBytes());
         }catch (Exception e){
             throw new CircuitException("500",e);
         }

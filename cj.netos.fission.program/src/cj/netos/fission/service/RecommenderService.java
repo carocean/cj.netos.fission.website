@@ -2,7 +2,6 @@ package cj.netos.fission.service;
 
 import cj.netos.fission.IPersonInfoService;
 import cj.netos.fission.IRandRecommendService;
-import cj.netos.fission.IRecommendedService;
 import cj.netos.fission.IRecommenderService;
 import cj.netos.fission.model.*;
 import cj.studio.ecm.CJSystem;
@@ -18,8 +17,6 @@ import java.util.function.Predicate;
 public class RecommenderService implements IRecommenderService {
     @CjServiceRef
     IPersonInfoService personInfoService;
-    @CjServiceRef
-    IRecommendedService recommendedService;
     @CjServiceRef
     IRandRecommendService randRecommendService;
 
@@ -74,7 +71,7 @@ public class RecommenderService implements IRecommenderService {
             if (info == null) {
                 continue;
             }
-            if (info.getCashier().getState() == 1 || info.getBalance() < info.getCashier().getCacAverage()*2/*只要大于均值视为开放，就可推荐给他人了，如果设得太高，会使参与的用户变得太少*/) {
+            if (info.getCashier().getState() == 1 || info.getBalance() < info.getCashier().getCacAverage() * 2/*只要大于均值视为开放，就可推荐给他人了，如果设得太高，会使参与的用户变得太少*/) {
                 unrecommendeds.remove(id);
             }
         }
@@ -93,10 +90,10 @@ public class RecommenderService implements IRecommenderService {
                 Person payeePerson = personInfo.getPerson();
                 switch (payerArea.getAreaType()) {
                     case "around":
-                        if ( payerPerson.getLocation() == null) {
+                        if (payerPerson.getLocation() == null) {
                             break;
                         }
-                        if ( payeePerson.getLocation() == null) {
+                        if (payeePerson.getLocation() == null) {
                             unrecommendeds.remove(id);
                             break;
                         }
@@ -112,7 +109,7 @@ public class RecommenderService implements IRecommenderService {
                         }
                         break;
                     case "city":
-                        String cityCodeFull=String.format("%s·%s",payeePerson.getProvinceCode(),payeePerson.getCityCode());
+                        String cityCodeFull = String.format("%s·%s", payeePerson.getProvinceCode(), payeePerson.getCityCode());
                         if (!cityCodeFull.equals(payerArea.getAreaCode())) {
                             unrecommendeds.remove(id);
                         }
@@ -143,10 +140,11 @@ public class RecommenderService implements IRecommenderService {
         for (PersonInfo info : unrecommendeds.values()) {
             pids.add(info.getPerson().getId());
         }
-        List<String> existsIds = recommendedService.listIncludeIds(pids);
-        for (String id : existsIds) {
-            unrecommendeds.remove(id);
-        }
+        //统计payRecord表即可，不必再荐一个表
+//        List<String> existsIds = recommendedService.listIncludeIds(pids);
+//        for (String id : existsIds) {
+//            unrecommendeds.remove(id);
+//        }
     }
 
     private void doNoneCondition(PersonInfo personInfo, Map<String, PersonInfo> unrecommendeds, int count) throws CircuitException {

@@ -24,6 +24,8 @@ public class PersonInfoService implements IPersonInfoService {
     ICashierBalanceService cashierBalanceService;
     @CjServiceRef
     ICashierService cashierService;
+    @CjServiceRef
+    IAttachmentService attachmentService;
 
     @Override
     public long totalPerson() {
@@ -224,4 +226,8 @@ public class PersonInfoService implements IPersonInfoService {
         return infos;
     }
 
+    @Override
+    public Attachment getAttachment(String id) {
+        return attachmentService.getInfo(id);
+    }
 }

@@ -1,5 +1,6 @@
 package cj.netos.fission;
 
+import cj.netos.fission.model.Attachment;
 import cj.netos.fission.model.Person;
 import cj.netos.fission.model.PersonInfo;
 
@@ -18,4 +19,7 @@ public interface IPersonInfoService {
     Set<String> searchPersonInPropTagsByPage(String id, List<String> tagIds, int limit, long skip);
 
     long totalPerson();
+
+    Attachment getAttachment(String id);
+
 }

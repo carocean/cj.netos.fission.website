@@ -9,17 +9,6 @@ header{
 .container .bottom-divider{
     height: 210px;
 }
-header .leading{
-
-}
-header .leading a{
-    display: inline-block;
-    padding: 10px 15px 10px 15px;
-}
-header .leading img{
-    width: 20px;
-    height: 20px;
-}
 
 .face{
     margin:10px 20px 10px 20px;

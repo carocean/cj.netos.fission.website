@@ -37,13 +37,41 @@ footer {
 .next-group {
     padding: 4px 20px;
     background: green;
-    display: inline-block;
     color: white;
     box-shadow: 0px 0px 8px #888888;
     border-bottom-left-radius: 4px;
     border-top-left-radius: 4px;
+    display: none;
 }
-
+.panel-dialog {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background: #f5f5f5;
+    display: none;
+    /*border-radius: 8px;*/
+    box-shadow: 0px 0px 8px #888888;
+}
+.panel-dialog .dialog-toolbar{
+    text-align: right;
+    position: absolute;
+    top: 7px;
+    right: 0;
+}
+.panel-dialog .dialog-toolbar span{
+    display: inline-block;
+    padding: 5px 15px;
+    color: red;
+    font-size: 20px;
+}
+.panel-dialog iframe{
+    border: 0;
+    height: 100%;
+    width: 100%;
+    background: #f5f5f5;
+}
 .recommends {
     padding: 0 10px 20px 10px;
     text-align: center;
@@ -62,6 +90,29 @@ footer {
     text-align: left;
     background: white;
     border-radius: 4px;
+    position: relative;
+}
+.recommends .person .person-mask {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba(68, 68, 68,0.8);
+    text-align: center;
+}
+.recommends .person .person-mask span {
+    display: inline-block;
+    padding: 5px 20px;
+    background: #666666;
+    color: #222222;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -25px;
+    margin-left: -40px;
+    border-radius: 8px;
 }
 .recommends .person .img-box{
     position: relative;
