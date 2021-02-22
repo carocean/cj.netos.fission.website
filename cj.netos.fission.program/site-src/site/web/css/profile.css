@@ -1,45 +1,197 @@
-header{
-    height: 150px !important;
-
+header {
+    height: 130px !important;
+    padding-top: 50px;
 }
 
-.container{
+body {
+    background: #ececec;
+}
+
+.container {
     background: #ececec !important;
 }
-.container .bottom-divider{
+
+.container .bottom-divider {
     height: 210px;
 }
 
-.face{
-    margin:10px 20px 10px 20px;
+.face {
+    margin: 10px 20px 10px 20px;
 }
-.face img{
+
+.face img {
     width: 70px;
     height: 70px;
     object-fit: cover;
     border-radius: 4px;
 }
-.face .face-info{
+
+.face .face-info {
     display: inline-block;
     margin-left: 10px;
 }
-.face .face-title{
+
+.face .face-title {
     font-size: 20px;
     font-weight: bold;
 }
+
 .face-area,
-.face-unionid{
+.face-unionid {
     color: #666666;
     font-size: 14px;
 }
-.face-unionid{
+
+.face-unionid {
     padding-top: 5px;
     padding-bottom: 5px;
 }
+
 .face-area label,
-.face-unionid label{
-   padding-right: 2px;
+.face-unionid label {
+    padding-right: 2px;
 }
-.face-area span{
+
+.face-area span {
     padding-right: 5px;
+}
+
+.card-item-summary-value {
+    font-size: 40px;
+}
+
+.balance-mgr {
+    text-align: center;
+}
+
+.balance-mgr > li {
+    display: inline-block;
+    padding: 5px 30px;
+    background: green;
+    margin: 20px 10px;
+    border-radius: 4px;
+}
+
+.balance-mgr > li span {
+    display: inline-block;
+    font-size: 14px;
+    color: white;
+}
+
+.my-tag-box {
+    position: relative;
+    padding-left: 45px;
+    padding-right: 30px;
+    margin-top: 10px;
+    margin-left: 40px;
+    font-size: 14px;
+
+}
+
+.my-tag-box > label {
+    display: inline-block;
+    padding-right: 10px;
+    position: absolute;
+    width: 50px;
+    left: 0;
+    bottom: 0;
+}
+
+.my-tag-box .my-tag-ul {
+    display: inline-block;
+}
+
+.my-tag-box .my-tag-arrow {
+    display: inline-block;
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 18px;
+    color: grey;
+    text-align: right;
+    vertical-align: middle;
+}
+
+.my-tag-box .my-tag-arrow span {
+    font-size: 10px;
+    padding-right: 4px;
+    display: inline-block;
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+
+.my-tag-box .my-tag-ul > li {
+    display: inline-block;
+    padding-right: 5px;
+}
+
+.my-tag-box .my-tag-ul > li span {
+    display: inline-block;
+    padding: 0px 5px;
+    border: 1px solid #cecece;
+    border-radius: 4px;
+    font-size: 12px;
+
+}
+
+.profile-mask {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: rgba(112, 128, 144, 0.9);
+    display: none;
+}
+
+.profile-mask .profile-mask-center {
+    position: absolute;
+    left: 40px;
+    right: 40px;
+    height: 150px;
+    background: white;
+    top: 50%;
+    margin-top: -100px;
+    border-radius: 4px;
+    padding: 15px;
+}
+.profile-mask .mask-main{
+    margin-bottom: 20px;
+}
+.profile-mask .mask-label {
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #222222;
+}
+
+.profile-mask .mask-input input {
+    padding: 10px;
+    margin: 0px 20px 10px 20px;
+    font-size: 16px;
+    border-bottom: 1px solid #ececec;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+}
+.profile-mask .mask-buttons{
+    text-align: center;
+}
+.profile-mask .mask-buttons li{
+    margin-left: 20px;
+    margin-right: 20px;
+    background: green;
+    display: inline-block;
+    padding: 5px 20px;
+    border-radius: 4px;
+}
+.profile-mask .mask-buttons li span {
+    display: inline-block;
+    font-size: 14px;
+    color: white;
+}
+.profile-mask .mask-buttons li.grey{
+    background: #888888;
+}
+.profile-mask .mask-buttons li.grey span{
+    color: #ececec;
 }

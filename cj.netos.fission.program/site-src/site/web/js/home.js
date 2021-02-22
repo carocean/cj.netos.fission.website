@@ -83,10 +83,6 @@ $(document).ready(function () {
         });
     });
 
-    $('.actions a[action=profile]').on('click', function () {
-        window.location.href = 'pages/profile.html';
-    });
-
     var checkNextGroup = function () {
         var isShowGroupButtom = $('.person').length == $('.person .person-mask:visible').length;
         if (isShowGroupButtom) {
@@ -96,6 +92,17 @@ $(document).ready(function () {
         }
     }
     checkNextGroup();
+
+    $('.actions a[action=profile]').on('click', function () {
+        var url='pages/profile.html';
+        // window.location.href = 'pages/profile.html';
+        var dialog = $('.panel-dialog');
+        var iframe = dialog.find('>iframe');
+        var tipsHtml = "<div style='position: relative;height: 100%;width: 100%;text-align: center;'><span style='position: absolute;top:50%;left: 50%;margin-top: -20px;margin-left: -50px;display: inline-block;font-size: 16px;color: red;'>正在加载...</span></div>";
+        iframe.contents().find("body").html(tipsHtml);
+        dialog.show();
+        iframe.attr('src', url);
+    });
 
     $('.person').on('click', function () {
         var li = $(this);

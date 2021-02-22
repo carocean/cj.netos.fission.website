@@ -14,7 +14,7 @@
 <body>
 <div class="wrapper">
     <header>
-        <div class="leading"><a><img src="../images/arrow-left.png"/></a></div>
+        <!--        <div class="leading"><a><img src="../images/arrow-left.png"/></a></div>-->
         <div class="face">
             <img src="../images/face-1.jpg"/>
             <ul class="face-info">
@@ -23,98 +23,84 @@
                 <li class="face-area"><label>地区：</label><span class="province">上海</span><span
                         class="district">浦东新区</span></li>
             </ul>
+            <div class="my-tag-box">
+                <ul class="my-tag-ul">
+                    <li class="my-tag"><span>打球</span></li>
+                    <li class="my-tag"><span>打球</span></li>
+                    <li class="my-tag"><span>打球</span></li>
+                    <li class="my-tag"><span>打球</span></li>
+                </ul>
+                <div class="my-tag-arrow"><span>更多兴趣</span> <span><label>&gt;</label></span></div>
+            </div>
         </div>
     </header>
 
     <div class="container">
-        <ul class="card">
+        <ul class="card" pay>
             <li class="card-item">
                 <ul class="card-item-subject">
-                    <li class="card-item-title">支付</li>
-                    <li class="card-item-sub-title">管理你点用户头像挣到的钱；管理你参与本游戏的推广资金；设定你的推广扣费策略等等</li>
+                    <li class="card-item-title">余额</li>
+                    <li class="card-item-sub-title">管理抢红包挣到的钱；如果你想拓展人脉，加群或拉群，请充值；请下载地微app，设定你的推广扣费策略等等</li>
                 </ul>
                 <ul class="card-item-summary">
-                    <li class="card-item-summary-title"><span>总资产</span></li>
-                    <li class="card-item-summary-value"><span>¥2589.21</span></li>
-                    <li class="card-item-summary-divider"></li>
+                    <li class="card-item-summary-value"><label
+                            style="font-size: 18px;">¥</label><span>2589.21</span><label
+                            style="font-size: 14px;">元</label></li>
+                    <!--                    <li class="card-item-summary-divider"></li>-->
                 </ul>
-                <ul class="card-item-nav fission-balance">
+                <!--                <ul class="card-item-nav cashier-balance">-->
+                <!--                    <li class="card-item-desc">-->
+                <!--                        <label>充值</label>-->
+                <!--                    </li>-->
+                <!--                    <li class="card-item-arrow"><label>&gt;</label></li>-->
+                <!--                </ul>-->
+                <ul class="balance-mgr">
+                    <li class="recharge"><span>充值</span></li>
+                    <li class="withdraw"><span>提现</span></li>
+                </ul>
+                <ul class="card-item-nav">
                     <li class="card-item-desc">
-                        <label>地微钱包零钱</label>
-                        <span>¥2340.93</span>
+                        <label>账单明细</label>
                     </li>
                     <li class="card-item-arrow"><label>&gt;</label></li>
                     <br/>
                     <li class="card-item-nav-divider"></li>
                 </ul>
-                <ul class="card-item-nav cashier-balance">
+                <ul class="card-item-nav" operator>
                     <li class="card-item-desc">
-                        <label>红包及收益</label>
-                        <span>¥428.38</span>
+                        <span>正在营业</span>
+                        <label>管理</label>
                     </li>
                     <li class="card-item-arrow"><label>&gt;</label></li>
                 </ul>
             </li>
 
         </ul>
-        <ul class="card">
-            <li class="card-item">
-                <ul class="card-item-subject">
-                    <li class="card-item-title">我的兴趣标签</li>
-                    <li class="card-item-sub-title">方便把你推荐给有共同兴趣爱好的朋友</li>
-                </ul>
-                <ul class="card-item-nav">
-                    <li class="card-item-desc">
-                        <span>女</span>
-                        <span>看书</span>
-                        <span>打羽毛球</span>
-                    </li>
-                    <li class="card-item-arrow"><label>&gt;</label></li>
-                </ul>
-            </li>
-            <li class="card-item-divider"></li>
-            <li class="card-item">
-                <ul class="card-item-subject">
-                    <li class="card-item-title">我的推广附件</li>
-                    <li class="card-item-sub-title">附件将在用户点你的头像时弹出，可以是你微信群的二维码，你的商品详情图片，你的超链接等</li>
-                </ul>
-                <ul class="card-item-nav">
-                    <li class="card-item-desc">
-                        <span>二维码</span>
-                        <span>图片</span>
-                    </li>
-                    <li class="card-item-arrow"><label>&gt;</label></li>
-                </ul>
-            </li>
 
-        </ul>
         <ul class="card">
             <li class="card-item">
                 <ul class="card-item-subject">
-                    <li class="card-item-title">接收朋友的条件</li>
-                    <li class="card-item-sub-title">你希望有哪些兴趣爱好的人成为你的朋友？</li>
+                    <li class="card-item-title">我的朋友</li>
+                    <li class="card-item-sub-title">已经是你地微的朋友了，可以到地微中的公众、聊天室跟他们聊天啦！如果仍需要加微信好友，可在地微中导出微信好友列表，手工在微信中填加
+                    </li>
                 </ul>
                 <ul class="card-item-nav">
                     <li class="card-item-desc">
-                        <span>男</span>
-                        <span>java开发</span>
-                        <span>旅游</span>
+                        <a href="#"><img src="../images/face-2.jpeg"/></a>
+                        <a href="#"><img src="../images/face-2.jpeg"/></a>
+                        <a href="#"><img src="../images/face-2.jpeg"/></a>
+                        <span>共进群24人</span>
                     </li>
                     <li class="card-item-arrow"><label>&gt;</label></li>
-                </ul>
-            </li>
-            <li class="card-item-divider"></li>
-            <li class="card-item">
-                <ul class="card-item-subject">
-                    <li class="card-item-title">已加的朋友</li>
-                    <li class="card-item-sub-title">已经是你地微的朋友了，可以到地微中的公众、聊天室跟他们聊天啦！如果仍需要加微信好友，可在地微中导出微信好友列表，手工在微信中填加</li>
+                    <br/>
+                    <li class="card-item-nav-divider"></li>
                 </ul>
                 <ul class="card-item-nav">
                     <li class="card-item-desc">
                         <a href="#"><img src="../images/face-2.jpeg"/></a>
                         <a href="#"><img src="../images/face-2.jpeg"/></a>
                         <a href="#"><img src="../images/face-2.jpeg"/></a>
-                        <span>等96人</span>
+                        <span>共加群7个</span>
                     </li>
                     <li class="card-item-arrow"><label>&gt;</label></li>
                 </ul>
@@ -123,7 +109,19 @@
 
         <div class="bottom-divider"></div>
     </div>
-<!--    <footer></footer>-->
+    <div class="profile-mask">
+        <div class="profile-mask-center">
+            <ul class="mask-main">
+                <li class="mask-label"><span>输入充值金额</span></li>
+                <li class="mask-input"><input type="text" placeholder="起充金额：100.00元"></li>
+            </ul>
+            <ul class="mask-buttons">
+                <li class="mask-cancel"><span>取消</span></li>
+                <li class="mask-confirm grey"><span>确认</span></li>
+            </ul>
+        </div>
+    </div>
+    <!--    <footer></footer>-->
 </div>
 
 </body>
