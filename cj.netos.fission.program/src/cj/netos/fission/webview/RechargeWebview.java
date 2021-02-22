@@ -66,7 +66,8 @@ public class RechargeWebview implements IGatewayAppSiteWayWebView {
     private Map<String, Object> sign(Map<String, Object> payMap) throws CircuitException {
         String appid = site.getProperty("wechat.appid");
         String noncestr = (String) payMap.get("noncestr");
-        long timestamp = System.currentTimeMillis() / 1000;
+        long timestampLong = System.currentTimeMillis() / 1000;
+        String timestamp=String.format("%s",timestampLong);
         String signType = "RSA";
         String prepayid = (String) payMap.get("prepayid");
         String packageStr = String.format("prepay_id=%s", prepayid);
@@ -92,7 +93,7 @@ public class RechargeWebview implements IGatewayAppSiteWayWebView {
             e.printStackTrace();
         }
         Map<String, Object> map = new HashMap<>();
-        map.put("timestamp", timestamp);
+        map.put("timestamp", timestamp);//注意：在苹果手机上，如果是数字时间的话会报缺少此参数错误，因此改为string类型
         map.put("appId", appid);
         map.put("nonceStr", noncestr);
         map.put("package", packageStr);

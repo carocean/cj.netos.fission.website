@@ -65,7 +65,7 @@ $(document).ready(function () {
             parent.WeixinJSBridge.invoke(
                 'getBrandWCPayRequest', {
                     "appId": map['appId'],     //公众号名称，由商户传入
-                    "timeStamp": map['timestamp'],      //时间戳，自1970年以来的秒数
+                    "timeStamp": map['timestamp'],      //时间戳，自1970年以来的秒数，注意：在苹果手机上，如果是数字时间的话会报缺少此参数错误
                     "nonceStr": map['nonceStr'], //随机串
                     "package": map['package'],
                     "signType": map['signType'],       //微信签名方式：
