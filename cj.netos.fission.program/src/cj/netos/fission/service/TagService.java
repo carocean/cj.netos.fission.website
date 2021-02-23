@@ -2,6 +2,7 @@ package cj.netos.fission.service;
 
 import cj.lns.chip.sos.cube.framework.IDocument;
 import cj.lns.chip.sos.cube.framework.IQuery;
+import cj.lns.chip.sos.cube.framework.TupleDocument;
 import cj.netos.fission.AbstractService;
 import cj.netos.fission.ITagService;
 import cj.netos.fission.model.LimitTag;
@@ -14,6 +15,33 @@ import java.util.*;
 
 @CjService(name = "tagService")
 public class TagService extends AbstractService implements ITagService {
+    @Override
+    public List<Tag> listAllTag() {
+        String cjql = String.format("select {'tuple':'*'}.sort({'tuple.sort':1}) from tuple %s %s where {}", _KEY_COL_TAGS, Tag.class.getName());
+        IQuery<Tag> query = getHome().createQuery(cjql);
+        List<IDocument<Tag>> documents = query.getResultList();
+        List<Tag> tags = new ArrayList<>();
+        for (IDocument<Tag> document : documents) {
+            tags.add(document.tuple());
+        }
+        return tags;
+    }
+
+    @Override
+    public void removePropTag(String unionid, String tagId) {
+        getHome().deleteDocOne(_KEY_COL_PROP_TAGS, String.format("{'tuple.person':'%s','tuple.tag':'%s'}", unionid, tagId));
+    }
+
+    @Override
+    public void selectPropTag(String unionid, String tagId) {
+        if(getHome().tupleCount(_KEY_COL_PROP_TAGS,String.format("{'tuple.person':'%s','tuple.tag':'%s'}", unionid, tagId))>0){
+            return;
+        }
+        PropertyTag propertyTag = new PropertyTag();
+        propertyTag.setPerson(unionid);
+        propertyTag.setTag(tagId);
+        getHome().saveDoc(_KEY_COL_PROP_TAGS, new TupleDocument<>(propertyTag));
+    }
 
     @Override
     public List<Tag> listPropTag(String unionid) {
@@ -66,13 +94,13 @@ public class TagService extends AbstractService implements ITagService {
 
     @Override
     public Set<String> searchPersonInPropTagsByPage(String unionid, List<String> tagIdList, int limit, long skip) {
-        String cjql = String.format("select {'tuple':'*'}.limit(%s).skip(%s)  from tuple %s %s where {'tuple.person':{'$ne':'%s'},'tuple.tag':{'$in':%s}}",limit,skip, _KEY_COL_PROP_TAGS, PropertyTag.class.getName(), unionid, new Gson().toJson(tagIdList));
+        String cjql = String.format("select {'tuple':'*'}.limit(%s).skip(%s)  from tuple %s %s where {'tuple.person':{'$ne':'%s'},'tuple.tag':{'$in':%s}}", limit, skip, _KEY_COL_PROP_TAGS, PropertyTag.class.getName(), unionid, new Gson().toJson(tagIdList));
         IQuery<PropertyTag> query = getHome().createQuery(cjql);
         List<IDocument<PropertyTag>> documents = query.getResultList();
-        Map<String,Object> personIds = new HashMap();
+        Map<String, Object> personIds = new HashMap();
         for (IDocument<PropertyTag> document : documents) {
             String personId = document.tuple().getPerson();
-            personIds.put(personId,true);
+            personIds.put(personId, true);
         }
         return personIds.keySet();
     }

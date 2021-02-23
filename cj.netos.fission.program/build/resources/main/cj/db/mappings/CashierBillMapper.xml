@@ -380,4 +380,12 @@
       note = #{note,jdbcType=VARCHAR}
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
+  <select id="pageBill" parameterType="cj.netos.fission.model.CashierBill" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from cashier_bill
+    where person = #{person,jdbcType=VARCHAR}
+    order by ctime desc
+    limit #{offset},#{limit}
+  </select>
 </mapper>

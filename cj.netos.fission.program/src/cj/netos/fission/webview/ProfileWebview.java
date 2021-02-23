@@ -1,9 +1,10 @@
 package cj.netos.fission.webview;
 
+import cj.netos.fission.ICashierService;
+import cj.netos.fission.IPayRecordService;
 import cj.netos.fission.IPersonInfoService;
-import cj.netos.fission.model.Person;
-import cj.netos.fission.model.PersonInfo;
-import cj.netos.fission.model.Tag;
+import cj.netos.fission.IPersonService;
+import cj.netos.fission.model.*;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
 import cj.studio.ecm.net.Circuit;
@@ -25,6 +26,12 @@ import java.util.List;
 public class ProfileWebview implements IGatewayAppSiteWayWebView {
     @CjServiceRef
     IPersonInfoService personInfoService;
+    @CjServiceRef
+    ICashierService cashierService;
+    @CjServiceRef
+    IPayRecordService payRecordService;
+    @CjServiceRef
+    IPersonService personService;
 
     @Override
     public void flow(Frame frame, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
@@ -37,7 +44,7 @@ public class ProfileWebview implements IGatewayAppSiteWayWebView {
         String accessToken = (String) session.attribute("accessToken");
         PersonInfo current = personInfoService.getInfo(unionid);
         Document document = resource.html(frame.relativePath());
-        printDocument(document, current,accessToken);
+        printDocument(document, current, accessToken);
         circuit.content().writeBytes(document.html().getBytes());
     }
 
@@ -74,6 +81,45 @@ public class ProfileWebview implements IGatewayAppSiteWayWebView {
                 tagsUl.appendChild(li);
             }
         }
+        Cashier cashier = cashierService.getCashier(person.getId());
+        if (cashier.getState() == 0) {
+            document.select(".card[pay] .card-item-nav[operator] span[state]").html("营业中");
+        } else {
+            document.select(".card[pay] .card-item-nav[operator] span[state]").html("已停业");
+        }
+        Element friends = document.select(".card[friends]").first();
+        Element members = friends.select(".card-item-nav[members]").first();
+        Element groups = friends.select(".card-item-nav[groups]").first();
+        long payeeCount = payRecordService.totalPayee(person.getId());
+        long payerCount = payRecordService.totalPayer(person.getId());
+        List<String> payeeIdList = payRecordService.pagePayeeId(person.getId(), 6, 0);
+        List<String> payerIdList = payRecordService.pagePayerId(person.getId(), 6, 0);
+        List<Person> payeeList = personService.findByIds(payeeIdList);
+        List<Person> payerList = personService.findByIds(payerIdList);
+
+        Element memberBox = members.select(".card-item-desc").first();
+        Element memberA = memberBox.select("a").first().clone();
+        Element memberS = memberBox.select("span").first().clone();
+        memberBox.empty();
+        for (Person payee : payeeList) {
+            Element a = memberA.clone();
+            a.select("img").attr("src", String.format("%s", payee.getAvatarUrl()));
+            memberBox.appendChild(a);
+        }
+        memberS.html(String.format("共进群%s人", payeeCount));
+        memberBox.appendChild(memberS);
+
+        Element groupBox = groups.select(".card-item-desc").first();
+        Element groupA = groupBox.select("a").first().clone();
+        Element groupS = groupBox.select("span").first().clone();
+        groupBox.empty();
+        for (Person payer : payerList) {
+            Element a = groupA.clone();
+            a.select("img").attr("src", String.format("%s", payer.getAvatarUrl()));
+            groupBox.appendChild(a);
+        }
+        groupS.html(String.format("共加群%s个", payerCount));
+        groupBox.appendChild(groupS);
     }
 
 }

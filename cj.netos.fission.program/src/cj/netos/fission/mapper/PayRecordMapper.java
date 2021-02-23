@@ -69,4 +69,19 @@ public interface PayRecordMapper {
     long sumPayeeAmount(@Param(value = "payer") String payer);
 
     long totalPayerAmountBetown(@Param(value = "payee") String payee, @Param(value = "begin") String begin,@Param(value = "end")  String end);
+
+
+    Long totalPayeeOfDay(@Param(value = "payer") String payer, @Param(value = "dayTime") String dayTime);
+
+    List<PayRecord> pagePayeeRecord(@Param(value = "payer") String payer, @Param(value = "limit") int limit, @Param(value = "offset") long offset);
+
+    List<String> pagePayeeId(@Param(value = "payer") String payer, @Param(value = "limit") int limit, @Param(value = "offset") long offset);
+
+    Long totalPayer(@Param(value = "payee") String payee);
+
+    Long totalPayerOnDay(@Param(value = "payee") String payee, @Param(value = "dayTime") String dayTime);
+
+    List<PayRecord> pagePayerRecord(@Param(value = "payee") String payee, @Param(value = "limit") int limit, @Param(value = "offset") long offset);
+
+    List<String> pagePayerId(@Param(value = "payee") String payee, @Param(value = "limit") int limit, @Param(value = "offset") long offset);
 }

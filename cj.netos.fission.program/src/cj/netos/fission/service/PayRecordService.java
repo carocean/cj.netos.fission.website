@@ -34,6 +34,11 @@ public class PayRecordService implements IPayRecordService {
 
     @CjTransaction
     @Override
+    public Long totalPayer(String principal) {
+        return payRecordMapper.totalPayer(principal);
+    }
+    @CjTransaction
+    @Override
     public long totalPayeeAmount(String payer) {
         return payRecordMapper.sumPayeeAmount(payer);
     }
@@ -47,6 +52,49 @@ public class PayRecordService implements IPayRecordService {
         SimpleDateFormat formatEnd = new SimpleDateFormat("yyyyMMdd235959999");
         String end = formatEnd.format(date);
         return payRecordMapper.totalPayerAmountBetown(payee, begin, end);
+    }
+
+
+    @CjTransaction
+    @Override
+    public PayRecord getPayRecord(String sn) {
+        return payRecordMapper.selectByPrimaryKey(sn);
+    }
+
+    @CjTransaction
+    @Override
+    public List<PayRecord> pagePayerRecord(String payer, int limit, long offset) {
+        return payRecordMapper.pagePayerRecord(payer, limit, offset);
+    }
+
+    @CjTransaction
+    @Override
+    public List<PayRecord> pagePayeeRecord(String payee, int limit, long offset) {
+        return payRecordMapper.pagePayeeRecord(payee, limit, offset);
+    }
+
+    @CjTransaction
+    @Override
+    public List<String> pagePayerId(String payer, int limit, long offset) {
+        return payRecordMapper.pagePayerId(payer, limit, offset);
+    }
+
+    @CjTransaction
+    @Override
+    public List<String> pagePayeeId(String payee, int limit, long offset) {
+        return payRecordMapper.pagePayeeId(payee, limit, offset);
+    }
+
+    @CjTransaction
+    @Override
+    public Long totalPayerOnDay(String principal, String dayTime) {
+        return payRecordMapper.totalPayerOnDay(principal, dayTime + "%");
+    }
+
+    @CjTransaction
+    @Override
+    public Long totalPayeeOfDay(String principal, String dayTime) {
+        return payRecordMapper.totalPayeeOfDay(principal, dayTime + "%");
     }
 
     @CjTransaction

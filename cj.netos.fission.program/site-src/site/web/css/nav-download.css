@@ -1,0 +1,60 @@
+.nav-center{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -150px;
+    margin-left: -130px;
+    width: 260px;
+}
+
+.nav-center .nav-tips{
+    font-size: 14px;
+    margin-bottom: 30px;
+    background: yellow;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 8px #888888;
+}
+.nav-center .nav-title{
+    padding: 5px 0;
+    font-weight: bold;
+    font-size: 16px;
+}
+.nav-center .nav-content{
+    font-size: 14px;
+    padding: 10px;
+}
+.nav-center .nav-location{
+    padding: 5px 0;
+    font-size: 14px;
+    padding: 5px 10px;
+}
+.nav-center .nav-location label{
+    display: inline-block;
+    padding-right: 5px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.nav-center .nav-location span{
+    color: royalblue;
+}
+.nav-center .nav-fixed{
+    margin-top: 10px;
+}
+.nav-center .nav-fixed span[download] {
+    color: red;
+    text-decoration: underline;
+    display: inline-block;
+    padding-right: 10px;
+}
+.nav-center .nav-close{
+    text-align: center;
+}
+.nav-center .nav-close span {
+    display: inline-block;
+    padding: 8px 40px;
+    border-radius: 4px;
+    background: green;
+    color: white;
+    box-shadow: 0px 0px 8px #888888;
+}

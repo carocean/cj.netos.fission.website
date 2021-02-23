@@ -4,7 +4,7 @@ $(document).ready(function () {
         return false;
     });
     $('.card[pay] .card-item-nav[operator]').on('click', function () {
-        window.location.href = 'cashier-balance.html';
+        window.location.href = 'fission-manager.html';
     })
 
     //开始充到红包
@@ -146,6 +146,22 @@ $(document).ready(function () {
             return;
         }
         $('.mask-confirm').removeClass('grey');
+    });
+
+    $('.balance-mgr .withdraw').on('click', function () {
+        window.location.href = './nav-download.html?title=提现服务&content=提现服务需要使用地微app，提现无任何门坎。&location=地微app->桌面->点你的头像->钱包->零钱->提现';
+    });
+    $('.card[pay] .card-item-nav[bill]').on('click', function () {
+        window.location.href ='./cashier-bill.html';
+    });
+    $('.card[friends] .card-item-nav[members]').on('click',function () {
+        window.location.href='./members.html';
+    });
+    $('.card[friends] .card-item-nav[groups]').on('click',function () {
+        window.location.href='./groups.html';
+    });
+    $('.face .my-tag-box .my-tag-arrow').on('click',function () {
+        window.location.href='./prop-tag.html';
     });
 });
 

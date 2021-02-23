@@ -2,7 +2,9 @@ package cj.netos.fission.mapper;
 
 import cj.netos.fission.model.CashierBill;
 import cj.netos.fission.model.CashierBillExample;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface CashierBillMapper {
@@ -61,4 +63,7 @@ public interface CashierBillMapper {
      * @mbg.generated generated automatically, do not modify!
      */
     int updateByPrimaryKey(CashierBill record);
+
+    List<CashierBill> pageBill(@Param(value = "person") String person, @Param(value = "limit") int limit, @Param(value = "offset") int offset);
+
 }

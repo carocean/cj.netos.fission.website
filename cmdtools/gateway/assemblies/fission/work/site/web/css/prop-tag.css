@@ -1,0 +1,35 @@
+.tag-box{
+    min-height: 100%;
+    background: white;
+}
+.tag-box .tag-selected{
+    padding: 0 15px 15px 15px;
+    background: #ececec;
+}
+.tag-box .tag-panel{
+    height: 100%;
+
+}
+
+.tag-box .tag-panel .tag-d{
+    padding-bottom: 2px;
+    padding-left: 15px;
+    font-weight: bold;
+    background: #ececec;
+}
+.tag-ul{
+    padding: 10px 15px;
+}
+.tag-ul .tag-label{
+    border-radius: 4px;
+    border: 1px solid #ececec;
+    margin: 10px 10px;
+    display: inline-block;
+    padding: 2px 15px;
+    font-size: 14px;
+}
+
+.tag-box .tag-selected .tag-ul .tag-label{
+    background: green;
+    color: white;
+}
