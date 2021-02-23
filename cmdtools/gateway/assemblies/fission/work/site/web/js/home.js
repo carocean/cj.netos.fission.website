@@ -67,6 +67,20 @@ $(document).ready(function () {
             // }
             fission.sharePYC(state, nickName+'邀请你抢红包！他今天抢了¥' + totalAmount + '元。上亿元红包等你抢！', imgUrl);
             fission.shareCR(state, '上亿元红包等你抢！', imgUrl,nickName+'邀请你抢红包！他今天抢了¥' + totalAmount + '元。');
+            wx.getLocation({
+                type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+                success: function (res) {
+                    var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
+                    var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
+                    var speed = res.speed; // 速度，以米/每秒计
+                    var accuracy = res.accuracy; // 位置精度
+                    $.get('./pages/update-location.service',{latitude:latitude,longitude:longitude},function (data) {
+
+                    }).error(function (e) {
+                        alert(e.responseText);
+                    });
+                }
+            });
         });
         wx.error(function (res) {
             alert('err:' + res);

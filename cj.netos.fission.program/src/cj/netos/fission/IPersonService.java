@@ -35,4 +35,7 @@ public interface IPersonService {
     List<Person> findInProvinceIn(String provinceCode, List<String> personIds, int limit, long skip);
 
     long total();
+
+    void updateLocation(String unionid, LatLng latLng);
+
 }

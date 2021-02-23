@@ -195,4 +195,11 @@ public class PersonService extends AbstractService implements IPersonService {
         AggregateIterable<Document> it = getHome().aggregate(_KEY_COL, pipeline);
         return it;
     }
+
+    @Override
+    public void updateLocation(String unionid, LatLng latLng) {
+        String filter = String.format("{'tuple.id':'%s'}",unionid);
+        String update = String.format("{'$set':{'tuple.location':%s}}",new Gson().toJson(latLng));
+        getHome().updateDocOne(_KEY_COL, Document.parse(filter), Document.parse(update));
+    }
 }

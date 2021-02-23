@@ -1,5 +1,6 @@
 package cj.netos.fission;
 
+import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.IServiceProvider;
 import cj.studio.ecm.IServiceSite;
 import cj.studio.ecm.net.CircuitException;
@@ -38,7 +39,7 @@ public class WXAuthUtil {
             is.read(jsonBytes);
             String message = new String(jsonBytes, "UTF-8");
             Map<String,Object> demoJson = new Gson().fromJson(message, HashMap.class);
-            System.out.println("JSON字符串："+demoJson);
+            CJSystem.logging().info(WXAuthUtil.class.getClass(),"JSON字符串："+demoJson);
             access_token = (String) demoJson.get("access_token");
             is.close();
         } catch (Exception e) {
@@ -65,7 +66,7 @@ public class WXAuthUtil {
             is.read(jsonBytes);
             String message = new String(jsonBytes, "UTF-8");
             Map<String ,Object> demoJson = new Gson().fromJson(message,HashMap.class);
-            System.out.println("JSON字符串："+demoJson);
+            CJSystem.logging().info(WXAuthUtil.class.getClass(),"JSON字符串："+demoJson);
             ticket = (String) demoJson.get("ticket");
             is.close();
         } catch (Exception e) {

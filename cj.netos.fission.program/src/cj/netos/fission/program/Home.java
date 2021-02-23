@@ -2,6 +2,7 @@ package cj.netos.fission.program;
 
 import cj.netos.fission.IPayRecordService;
 import cj.netos.fission.IPersonInfoService;
+import cj.netos.fission.IPersonService;
 import cj.netos.fission.IRecommenderService;
 import cj.netos.fission.model.Person;
 import cj.netos.fission.model.PersonInfo;
@@ -21,6 +22,7 @@ import org.jsoup.nodes.Element;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author caroceanjofers
@@ -33,8 +35,8 @@ public class Home implements IGatewayAppSiteWayWebView {
     IPersonInfoService personInfoService;
     @CjServiceRef
     IPayRecordService payRecordService;
-//    @CjServiceRef
-//    IAttachmentService attachmentService;
+    @CjServiceRef
+    IPersonService personService;
 
     @Override
     public void flow(Frame frame, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
@@ -67,7 +69,7 @@ public class Home implements IGatewayAppSiteWayWebView {
 //            recommendsE.attr("attachment", url);
 //        }
 
-        Collection<PersonInfo> persons = recommenderService.recommend(unionid, 100);
+        Collection<PersonInfo> persons = recommenderService.recommend(unionid, 20);
         printPersonList(persons, document, (String) httpFrame.session().attribute("accessToken"));
 
         circuit.content().writeBytes(document.html().getBytes());
@@ -87,6 +89,23 @@ public class Home implements IGatewayAppSiteWayWebView {
             BigDecimal decimal = new BigDecimal(balance).divide(new BigDecimal("100.00"), 2, RoundingMode.DOWN);
             cli.select(".cashier-balance .balance-v").html(decimal.toString());
             ul.appendChild(cli);
+            printPayees(cli, person);
+        }
+    }
+
+    private void printPayees(Element e, Person person) {
+        long payeeCount = payRecordService.totalPayee(person.getId());
+        List<String> ids = payRecordService.pagePayeeId(person.getId(), 5, 0);
+        List<Person> payeeList = personService.findByIds(ids);
+        Element tips = e.select(".person-yours .tips").first();
+        tips.select(".count").html(payeeCount+"");
+        Element ul = e.select(".person-yours .friend-ul").first();
+        Element cli = ul.select(".friend").first().clone();
+        ul.empty();
+        for (Person payee : payeeList) {
+            Element li = cli.clone();
+            li.select("img").attr("src", payee.getAvatarUrl());
+            ul.appendChild(li);
         }
     }
 
