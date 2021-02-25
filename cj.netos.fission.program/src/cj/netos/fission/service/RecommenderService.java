@@ -31,56 +31,56 @@ public class RecommenderService implements IRecommenderService {
         //再去除B集合中已推荐给被支付人的用户
         //返回B集合
         //可以循环以装满count，如果装到person表的总数量仍未满则退出循环
-        Map<String, PersonInfo> unrecommendeds = new HashMap<>();
+        Map<String, PersonInfo> recommendeds = new HashMap<>();
         long totalPerson = personInfoService.totalPerson();
         if (totalPerson == 0) {
-            return unrecommendeds.values();
+            return recommendeds.values();
         }
         long skip = 0;
         int timers = 1;
         int sizeOnTimes = 0;
         while (timers <= totalPerson && skip < count && skip < totalPerson) {
-            boolean isProcess = doArea(personInfo, unrecommendeds, count, skip);
+            boolean isProcess = matchArea(personInfo, recommendeds, count, skip);
             if (!isProcess) {//如果没有处理则按被支付人的兴趣标签条件来搜索，如果有的话
-                isProcess = doPayeeTags(personInfo, unrecommendeds, count, skip);
+                isProcess = matchPayeeTags(personInfo, recommendeds, count, skip);
             }
             if (!isProcess) {//如果没有处理则按被支付人的兴趣标签属性来搜索，如果有的话
-                isProcess = doPropTags(personInfo, unrecommendeds, count, skip);
+                isProcess = matchPropTags(personInfo, recommendeds, count, skip);
             }
             //没有搜索任何限制条件，则随机取
-            if (!isProcess || unrecommendeds.isEmpty()) {//||unrecommendeds.isEmpty() 如果想要设置了被支付人兴趣标签虽然没有记录但仍想有推荐结果，就随机取一些
-                doNoneCondition(personInfo, unrecommendeds, count);
+            if (!isProcess || recommendeds.isEmpty()) {//||recommendeds.isEmpty() 如果想要设置了被支付人兴趣标签虽然没有记录但仍想有推荐结果，就随机取一些
+                noneCondition(personInfo, recommendeds, count);
             }
-            sizeOnTimes = unrecommendeds.size();
+            sizeOnTimes = recommendeds.size();
             skip += sizeOnTimes;
-            filterPayerCashier(personInfo, unrecommendeds);//过滤掉已停业的且余额小于10元的
-            filterPayerLimit(personInfo, unrecommendeds);//过滤掉支付人限制
-            filterRecommendeds(personInfo, unrecommendeds);//过滤掉已推荐过的
+            filterPayerCashier(personInfo, recommendeds);//过滤掉已停业的且余额小于10元的
+            filterPayerLimit(personInfo, recommendeds);//过滤掉支付人限制
+            filterRecommendeds(personInfo, recommendeds);//过滤掉已推荐过的
             CJSystem.logging().info(getClass(), String.format("用户:%s 推荐引擎循环搜索次数:%s 本次偏移：%s 检索用户数：%s", personInfo.getPerson().getNickName(), timers, skip, sizeOnTimes));
             timers++;
         }
-        CJSystem.logging().info(getClass(), String.format("用户:%s 最终推荐数:%s 共搜索记录数：%s 用户库总数：%s", personInfo.getPerson().getNickName(), unrecommendeds.size(), skip, totalPerson));
-        return unrecommendeds.values();
+        CJSystem.logging().info(getClass(), String.format("用户:%s 最终推荐数:%s 共搜索记录数：%s 用户库总数：%s", personInfo.getPerson().getNickName(), recommendeds.size(), skip, totalPerson));
+        return recommendeds.values();
 
     }
 
-    private void filterPayerCashier(PersonInfo personInfo, Map<String, PersonInfo> unrecommendeds) {
-        String ids[] = unrecommendeds.keySet().toArray(new String[0]);
+    private void filterPayerCashier(PersonInfo personInfo, Map<String, PersonInfo> recommendeds) {
+        String ids[] = recommendeds.keySet().toArray(new String[0]);
         for (String id : ids) {
-            PersonInfo info = unrecommendeds.get(id);
+            PersonInfo info = recommendeds.get(id);
             if (info == null) {
                 continue;
             }
             if (info.getCashier().getState() == 1 || info.getBalance() < info.getCashier().getCacAverage() * 2/*只要大于均值视为开放，就可推荐给他人了，如果设得太高，会使参与的用户变得太少*/) {
-                unrecommendeds.remove(id);
+                recommendeds.remove(id);
             }
         }
     }
 
-    private void filterPayerLimit(PersonInfo personInfo, Map<String, PersonInfo> unrecommendeds) {
-        String ids[] = unrecommendeds.keySet().toArray(new String[0]);
+    private void filterPayerLimit(PersonInfo personInfo, Map<String, PersonInfo> recommendeds) {
+        String ids[] = recommendeds.keySet().toArray(new String[0]);
         for (String id : ids) {
-            PersonInfo info = unrecommendeds.get(id);
+            PersonInfo info = recommendeds.get(id);
             if (info == null) {
                 continue;
             }
@@ -94,24 +94,24 @@ public class RecommenderService implements IRecommenderService {
                             break;
                         }
                         if (payeePerson.getLocation() == null) {
-                            unrecommendeds.remove(id);
+                            recommendeds.remove(id);
                             break;
                         }
                         double distance = Utils.getDistance(payerPerson.getLocation(), payeePerson.getLocation());
                         double radius = Double.valueOf(payerArea.getAreaCode());
                         if (distance > radius) {
-                            unrecommendeds.remove(id);
+                            recommendeds.remove(id);
                         }
                         break;
                     case "province":
                         if (StringUtil.isEmpty(payeePerson.getProvinceCode()) || !payeePerson.getProvinceCode().equals(payerArea.getAreaCode())) {
-                            unrecommendeds.remove(id);
+                            recommendeds.remove(id);
                         }
                         break;
                     case "city":
                         String cityCodeFull = String.format("%s·%s", payeePerson.getProvinceCode(), payeePerson.getCityCode());
                         if (!cityCodeFull.equals(payerArea.getAreaCode())) {
-                            unrecommendeds.remove(id);
+                            recommendeds.remove(id);
                         }
                         break;
                 }
@@ -129,25 +129,25 @@ public class RecommenderService implements IRecommenderService {
                 }
                 orgin.retainAll(payeeTagIds);
                 if (orgin.isEmpty()) {
-                    unrecommendeds.remove(id);
+                    recommendeds.remove(id);
                 }
             }
         }
     }
 
-    private void filterRecommendeds(PersonInfo personInfo, Map<String, PersonInfo> unrecommendeds) {
+    private void filterRecommendeds(PersonInfo personInfo, Map<String, PersonInfo> recommendeds) {
         List<String> pids = new ArrayList<>();
-        for (PersonInfo info : unrecommendeds.values()) {
+        for (PersonInfo info : recommendeds.values()) {
             pids.add(info.getPerson().getId());
         }
         //统计payRecord表即可，不必再荐一个表
 //        List<String> existsIds = recommendedService.listIncludeIds(pids);
 //        for (String id : existsIds) {
-//            unrecommendeds.remove(id);
+//            recommendeds.remove(id);
 //        }
     }
 
-    private void doNoneCondition(PersonInfo personInfo, Map<String, PersonInfo> unrecommendeds, int count) throws CircuitException {
+    private void noneCondition(PersonInfo personInfo, Map<String, PersonInfo> recommendeds, int count) throws CircuitException {
         String personId = personInfo.getPerson().getId();
         List<Person> personList = randRecommendService.randPersons(count);
         for (Person person : personList) {
@@ -155,12 +155,12 @@ public class RecommenderService implements IRecommenderService {
                 continue;
             }
             PersonInfo info = personInfoService.loadPersonInfo(person);
-            unrecommendeds.put(info.getPerson().getId(), info);
+            recommendeds.put(info.getPerson().getId(), info);
         }
 
     }
 
-    private boolean doPropTags(PersonInfo personInfo, Map<String, PersonInfo> unrecommendeds, int count, long skip) {
+    private boolean matchPropTags(PersonInfo personInfo, Map<String, PersonInfo> recommendeds, int count, long skip) {
         List<Tag> propTags = personInfo.getPropTags();
         if (propTags.isEmpty()) {
             return false;
@@ -179,12 +179,12 @@ public class RecommenderService implements IRecommenderService {
             if (info == null) {
                 continue;
             }
-            unrecommendeds.put(info.getPerson().getId(), info);
+            recommendeds.put(info.getPerson().getId(), info);
         }
         return true;
     }
 
-    private boolean doPayeeTags(PersonInfo personInfo, Map<String, PersonInfo> unrecommendeds, int count, long skip) {
+    private boolean matchPayeeTags(PersonInfo personInfo, Map<String, PersonInfo> recommendeds, int count, long skip) {
         List<Tag> payeeTags = personInfo.getPayeeTags();
         if (payeeTags.isEmpty()) {
             return false;
@@ -199,19 +199,19 @@ public class RecommenderService implements IRecommenderService {
             if (info == null) {
                 continue;
             }
-            unrecommendeds.put(info.getPerson().getId(), info);
+            recommendeds.put(info.getPerson().getId(), info);
         }
         return true;
     }
 
-    private boolean doArea(PersonInfo personInfo, Map<String, PersonInfo> unrecommendeds, int limit, long skip) {
+    private boolean matchArea(PersonInfo personInfo, Map<String, PersonInfo> recommendeds, int limit, long skip) {
         Area area = personInfo.getPayeeArea();
         if (area == null) {
             return false;
         }
         List<PersonInfo> personInfos = personInfoService.searchByArea(personInfo, limit, skip);
         for (PersonInfo info : personInfos) {
-            unrecommendeds.put(info.getPerson().getId(), info);
+            recommendeds.put(info.getPerson().getId(), info);
         }
         return true;
     }

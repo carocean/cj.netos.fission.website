@@ -50,6 +50,7 @@ public class Home implements IGatewayAppSiteWayWebView {
 
         Document document = resource.html("/home.html");
         Element recommendsE = document.select(".recommends").first();
+        //其下是分享js要用到的信息
         recommendsE.attr("state", frame.parameter("state"));
         recommendsE.attr("avatar", current.getPerson().getAvatarUrl());
         recommendsE.attr("nickName", current.getPerson().getNickName());
