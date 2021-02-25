@@ -25,11 +25,12 @@ public class CashierService implements ICashierService {
             cashier = new Cashier();
             cashier.setPerson(unionid);
             cashier.setDayAmount(0L);
-            cashier.setState(1);
+            cashier.setState(0);
             cashier.setType(0);
             cashier.setCacAverage(30L);
             cashier.setAmplitudeFactor(new BigDecimal("1.6"));
             cashier.setClosedCause(null);
+            cashierMapper.insert(cashier);
         }
         return cashier;
     }
