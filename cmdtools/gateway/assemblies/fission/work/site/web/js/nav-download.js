@@ -6,7 +6,7 @@ $(document).ready(function () {
         history.go(-1);
         return false;
     });
-    $('.nav-fixed .span[download]').on('click',function () {
+    $('.nav-fixed span[download]').on('click',function () {
        window.location.href='http://nodespower.com/qrslice/downloads.html';
     });
 });
