@@ -6,5 +6,4 @@ public interface IRecommendedService {
     void visitIdList(String person,List<String> unionIds);
 
     void emptyVisits(String unionid);
-
 }

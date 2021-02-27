@@ -6,8 +6,10 @@ import cj.netos.fission.IPersonService;
 import cj.netos.fission.IRecommenderService;
 import cj.netos.fission.model.Person;
 import cj.netos.fission.model.PersonInfo;
+import cj.studio.ecm.IServiceSite;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
+import cj.studio.ecm.annotation.CjServiceSite;
 import cj.studio.ecm.net.Circuit;
 import cj.studio.ecm.net.CircuitException;
 import cj.studio.ecm.net.Frame;
@@ -37,7 +39,8 @@ public class Home implements IGatewayAppSiteWayWebView {
     IPayRecordService payRecordService;
     @CjServiceRef
     IPersonService personService;
-
+    @CjServiceSite
+    IServiceSite site;
     @Override
     public void flow(Frame frame, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
         HttpFrame httpFrame = (HttpFrame) frame;
@@ -95,7 +98,15 @@ public class Home implements IGatewayAppSiteWayWebView {
         Element ul = document.select(".persons").first();
         Element li = ul.select(".person").first().clone();
         ul.empty();
+        String openedAmount = site.getProperty("recommender.user.opened.amount");
+        if (StringUtil.isEmpty(openedAmount)) {
+            openedAmount = "60";
+        }
+        long oamount = Long.valueOf(openedAmount);
         for (PersonInfo personInfo : personList) {
+            if (personInfo.getBalance() < oamount) {
+                continue;
+            }
             Person person = personInfo.getPerson();
             Element cli = li.clone();
             cli.attr("person", person.getId());

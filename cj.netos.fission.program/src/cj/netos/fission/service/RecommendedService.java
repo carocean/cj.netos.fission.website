@@ -2,15 +2,11 @@ package cj.netos.fission.service;
 
 import cj.lns.chip.sos.cube.framework.IDocument;
 import cj.lns.chip.sos.cube.framework.IQuery;
-import cj.lns.chip.sos.cube.framework.TupleDocument;
 import cj.netos.fission.AbstractService;
 import cj.netos.fission.IRecommendedService;
-import cj.netos.fission.model.Recommended;
-import cj.netos.fission.model.Utils;
 import cj.studio.ecm.annotation.CjService;
 import cj.ultimate.gson2.com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @CjService(name = "recommendedService")
@@ -34,16 +30,5 @@ public class RecommendedService extends AbstractService implements IRecommendedS
             String friend = document.tuple();
             unionIds.remove(friend);
         }
-        for (String friend : unionIds) {
-            addFriend(person, friend);
-        }
-    }
-
-    private void addFriend(String person, String friend) {
-        Recommended recommended = new Recommended();
-        recommended.setPerson(person);
-        recommended.setFriend(friend);
-        recommended.setCtime(Utils.timeToStr(System.currentTimeMillis()));
-        getHome().saveDoc(_COL, new TupleDocument<>(recommended));
     }
 }
