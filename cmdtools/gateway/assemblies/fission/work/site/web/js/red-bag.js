@@ -7,6 +7,10 @@ $(document).ready(function () {
         return false;
     });
 
+    $('.rb-info .rb-box .rb-go-wallet').on('click',function () {
+        alert('提现服务\n\n提现服务需要使用地微app，提现无任何门坎。\n\n服务位置：地微app->桌面->点你的头像->钱包->交个朋友->提现');
+    });
+
     var record_sn;
     var timerPayRecordDone = 0;
 
@@ -41,6 +45,5 @@ $(document).ready(function () {
     }).error(function (e) {
         alert(e);
     });
-
 
 });
