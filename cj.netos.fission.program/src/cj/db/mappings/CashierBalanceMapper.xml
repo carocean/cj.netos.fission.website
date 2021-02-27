@@ -176,11 +176,4 @@
     set balance = #{balance,jdbcType=BIGINT}
     where person = #{person,jdbcType=VARCHAR}
   </update>
-  <select id="page" parameterType="cj.netos.fission.model.CashierBalance" resultMap="BaseResultMap">
-    select
-    balance.*
-    from cashier_balance balance,cashier cashier
-    where cashier.`state` = #{state,jdbcType=INTEGER}
-    limit #{skip}, #{limit}
-  </select>
 </mapper>

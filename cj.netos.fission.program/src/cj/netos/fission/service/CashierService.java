@@ -4,12 +4,15 @@ import cj.netos.fission.ICashierService;
 import cj.netos.fission.mapper.CashierBalanceMapper;
 import cj.netos.fission.mapper.CashierMapper;
 import cj.netos.fission.model.Cashier;
+import cj.netos.fission.model.CashierExample;
 import cj.studio.ecm.annotation.CjBridge;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
 import cj.studio.orm.mybatis.annotation.CjTransaction;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @CjBridge(aspects = "@transaction")
 @CjService(name = "cashierService")
@@ -33,5 +36,17 @@ public class CashierService implements ICashierService {
             cashierMapper.insert(cashier);
         }
         return cashier;
+    }
+    @CjTransaction
+    @Override
+    public List<String> listByRuning(List<String> unionIds) {
+        CashierExample example = new CashierExample();
+        example.createCriteria().andStateEqualTo(0).andPersonIn(unionIds);
+        List<Cashier> cashiers = cashierMapper.selectByExample(example);
+        List<String> ids = new ArrayList<>();
+        for (Cashier cashier : cashiers) {
+            ids.add(cashier.getPerson());
+        }
+        return ids;
     }
 }

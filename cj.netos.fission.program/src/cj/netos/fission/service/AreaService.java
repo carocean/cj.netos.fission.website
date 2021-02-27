@@ -14,20 +14,16 @@ import java.util.List;
 
 @CjService(name = "areaService")
 public class AreaService extends AbstractService implements IAreaService {
-    @CjServiceRef
-    IPersonService personService;
     @Override
-    public List<Area> listLimitArea(String unionid) {
+    public Area getLimitArea(String unionid) {
         String cjql = String.format("select {'tuple':'*'} from tuple %s %s where {'tuple.person':'%s'}", _KEY_COL_LIMIT_AREA, Area.class.getName(), unionid);
         IQuery<Area> query = getHome().createQuery(cjql);
-        List<IDocument<Area>> documents = query.getResultList();
-        List<Area> areas = new ArrayList<>();
-        for (IDocument<Area> document : documents) {
-            areas.add(document.tuple());
+        IDocument<Area> document = query.getSingleResult();
+        if (document == null) {
+            return null;
         }
-        return areas;
+        return document.tuple();
     }
-
 
 
 }

@@ -62,5 +62,4 @@ public interface CashierBalanceMapper {
      */
     int updateByPrimaryKey(CashierBalance record);
 
-    List<CashierBalance> page(@Param(value = "state") int state, @Param(value = "limit") int limit, @Param(value = "skip") int skip);
 }

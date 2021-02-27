@@ -61,4 +61,6 @@ public interface CashierMapper {
      * @mbg.generated generated automatically, do not modify!
      */
     int updateByPrimaryKey(Cashier record);
+
+
 }
