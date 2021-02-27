@@ -111,9 +111,11 @@ public class PersonInfoService implements IPersonInfoService, IndexPoolConstants
 
         Collection<String> ids = null;
         Map<String, Object> tuples = new HashMap<>();//persons的元组，含有distance
-        ids = searchIdByAround(tuples, person, person.getLocation(), "20000"/*默认20公里*/, limit, skip);
-        for (String id : ids) {
-            idMap.put(id, true);
+        if (person.getLocation() != null) {
+            ids = searchIdByAround(tuples, person, person.getLocation(), "20000"/*默认20公里*/, limit, skip);
+            for (String id : ids) {
+                idMap.put(id, true);
+            }
         }
         //匹配属性标签
         List<Tag> payeeTags = current.getPropTags();
