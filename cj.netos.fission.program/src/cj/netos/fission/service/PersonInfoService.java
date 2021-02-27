@@ -135,8 +135,14 @@ public class PersonInfoService implements IPersonInfoService, IndexPoolConstants
         recommendedService.visitIdList(current.getPerson().getId(), pids);
         List<PersonInfo> infos = new ArrayList<>();
         for (String id : pids) {
+            if (id.equals(person.getId())) {
+                continue;
+            }
             Person p = personService.get(id);
             PersonInfo info = loadPersonInfo(p);
+            if (cannotRecommend(info)) {
+                continue;
+            }
             infos.add(info);
         }
         return infos;
@@ -158,8 +164,14 @@ public class PersonInfoService implements IPersonInfoService, IndexPoolConstants
         recommendedService.visitIdList(current.getPerson().getId(), ids);
         List<PersonInfo> infos = new ArrayList<>();
         for (String id : ids) {
+            if (id.equals(current.getPerson().getId())) {
+                continue;
+            }
             Person p = personService.get(id);
             PersonInfo info = loadPersonInfo(p);
+            if (cannotRecommend(info)) {
+                continue;
+            }
             infos.add(info);
         }
         return infos;
@@ -190,6 +202,9 @@ public class PersonInfoService implements IPersonInfoService, IndexPoolConstants
         recommendedService.visitIdList(current.getPerson().getId(), rids);
         List<PersonInfo> infos = new ArrayList<>();
         for (String id : rids) {
+            if (id.equals(person.getId())) {
+                continue;
+            }
             Map<String, Object> tuple = (Map<String, Object>) tuples.get(id);
             if (tuple != null) {
                 Person p = Person.load(tuple);
@@ -199,6 +214,9 @@ public class PersonInfoService implements IPersonInfoService, IndexPoolConstants
             }
             Person p = personService.get(id);
             PersonInfo info = loadPersonInfo(p);
+            if (cannotRecommend(info)) {
+                continue;
+            }
             infos.add(info);
         }
         return infos;
@@ -240,7 +258,11 @@ public class PersonInfoService implements IPersonInfoService, IndexPoolConstants
         }
         recommendedService.visitIdList(current.getPerson().getId(), rids);
         List<PersonInfo> infos = new ArrayList<>();
+
         for (String id : rids) {
+            if (id.equals(person.getId())) {
+                continue;
+            }
             Map<String, Object> tuple = (Map<String, Object>) tuples.get(id);
             if (tuple != null) {
                 Person p = Person.load(tuple);
@@ -250,9 +272,24 @@ public class PersonInfoService implements IPersonInfoService, IndexPoolConstants
             }
             Person p = personService.get(id);
             PersonInfo info = loadPersonInfo(p);
+            if (cannotRecommend(info)) {
+                continue;
+            }
             infos.add(info);
         }
         return infos;
+    }
+
+    boolean cannotRecommend(PersonInfo info) {
+        if (info.getCashier().getState() == 1) {
+            return true;
+        }
+        String openedAmount = site.getProperty("recommender.user.opened.amount");
+        if (StringUtil.isEmpty(openedAmount)) {
+            openedAmount = "60";
+        }
+        long openedAmountLong = Long.valueOf(openedAmount);
+        return info.getBalance() < openedAmountLong;
     }
 
     private Collection<String> searchIdByProvince(String provinceCode, int limit, long skip) {
