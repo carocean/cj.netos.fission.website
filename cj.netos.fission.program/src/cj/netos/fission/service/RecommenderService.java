@@ -47,15 +47,18 @@ public class RecommenderService implements IRecommenderService {
         List<Tag> limitTags = current.getPayeeTags();
         if (area != null && !limitTags.isEmpty()) {//两条件都有则求二者的交集
             matchAreaAndPayeeTags(current, recommendeds, limit, skip);
+            recommendeds.remove(current.getPerson().getId());
             return;
         }
         if (area != null) {//只有区域条件则只按区域查
             matchArea(current, recommendeds, limit, skip);
+            recommendeds.remove(current.getPerson().getId());
             return;
         }
 
         if (!limitTags.isEmpty()) {//只有标签条件则只按标签查
             matchPayeeTags(current, recommendeds, limit, skip);
+            recommendeds.remove(current.getPerson().getId());
             return;
         }
         //没有任何条件则：
@@ -66,6 +69,7 @@ public class RecommenderService implements IRecommenderService {
         求三者的并集
          */
         matchDefault(current, recommendeds, limit, skip);
+        recommendeds.remove(current.getPerson().getId());
     }
 
     private void matchDefault(PersonInfo current, Map<String, PersonInfo> recommendeds, int limit, long skip) {
