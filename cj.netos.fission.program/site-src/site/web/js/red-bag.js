@@ -24,7 +24,7 @@ $(document).ready(function () {
             var record = obj.record;
             var rbAmountPanel = $('.rb-info .rb-card .rb-amount');
             rbAmountPanel.empty();
-            rbAmountPanel.append('<span>' + obj.amount + '</span><label>元</label>');
+            rbAmountPanel.append('<span style="font-size: 60px;">' + obj.amount + '</span><label>元</label>');
             var recordHtml = obj.recordHtml;
             var personsE = $('.rb-payee-box .rb-payee-persons');
             if (typeof personsE.attr('rended') == 'undefined') {

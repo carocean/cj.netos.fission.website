@@ -119,7 +119,7 @@ public class RadBagWebview implements IGatewayAppSiteWayWebView {
 
     private void printDoc(PersonInfo snatcher, PersonInfo redBagOwner, Document document, String accessToken) throws CircuitException {
         document.select(".rb-info").attr("red-bag-owner", String.format("%s@gbera.netos", redBagOwner.getPerson().getId()));
-        document.select(".rb-info .rb-card .rb-amount").html("<span>正在拆包...</span>");
+        document.select(".rb-info .rb-card .rb-amount").html("<span style='font-size: 40px;'>正在拆包...</span>");
         Element rbPerson = document.select(".rb-person").first();
         Element oImg = rbPerson.select(".rb-face img").first();
         oImg.attr("src", redBagOwner.getPerson().getAvatarUrl());
