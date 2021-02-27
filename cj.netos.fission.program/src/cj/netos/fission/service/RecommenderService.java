@@ -24,7 +24,7 @@ public class RecommenderService implements IRecommenderService {
         if (totalPerson == 0) {
             return recommendeds.values();
         }
-        recommendedService.emptyVisits(unionid);//为调试而清除
+//        recommendedService.emptyVisits(unionid);//为调试而清除,生产环境必须注释掉
 
         int limit = count * 2;
         long skip = 0;

@@ -71,9 +71,23 @@ public class Home implements IGatewayAppSiteWayWebView {
 //        }
 
         Collection<PersonInfo> persons = recommenderService.recommend(unionid, 20);
-        printPersonList(persons, document, (String) httpFrame.session().attribute("accessToken"));
-
+        if (persons.isEmpty()) {
+            printEmpty(current, document);
+        } else {
+            printPersonList(persons, document, (String) httpFrame.session().attribute("accessToken"));
+        }
         circuit.content().writeBytes(document.html().getBytes());
+    }
+
+    private void printEmpty(PersonInfo current, Document document) {
+        document.select(".persons").remove();
+        Element panel = document.select(".empty-panel").first();
+        if (current.getPropTags().isEmpty()) {
+            panel.select(".prop-tag-settings").remove();
+        }
+        if (current.getPayeeTags().isEmpty() && current.getPayeeArea() == null) {
+            panel.select(".payee-settings").remove();
+        }
     }
 
     private void printPersonList(Collection<PersonInfo> personList, Document document, String accessToken) {
@@ -99,7 +113,7 @@ public class Home implements IGatewayAppSiteWayWebView {
         List<String> ids = payRecordService.pagePayeeId(person.getId(), 5, 0);
         List<Person> payeeList = personService.findByIds(ids);
         Element tips = e.select(".person-yours .tips").first();
-        tips.select(".count").html(payeeCount+"");
+        tips.select(".count").html(payeeCount + "");
         Element ul = e.select(".person-yours .friend-ul").first();
         Element cli = ul.select(".friend").first().clone();
         ul.empty();
