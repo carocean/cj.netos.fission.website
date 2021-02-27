@@ -48,29 +48,32 @@ public class GroupsWebview implements IGatewayAppSiteWayWebView {
         PersonInfo current = personInfoService.getInfo(unionid);
         Person person = current.getPerson();
         long payerCount = payRecordService.totalPayer(person.getId());
+        long payerAmount = payRecordService.totalPayerAmount(person.getId());
         List<PayRecord> payerReocrds = payRecordService.pagePayerRecord(person.getId(), 50, 0);
-        List<String> ids = new ArrayList<>();
-        Map<String, PayRecord> payerAmounts = new HashMap<>();
-        for (PayRecord record : payerReocrds) {
-            ids.add(record.getPayee());
-            payerAmounts.put(record.getPayee(), record);
+        List<String> ids = payRecordService.pagePayerId(person.getId(), 50, 0);
+        List<Person> persons = personService.findByIds(ids);
+        Map<String, Person> personMap = new HashMap<>();
+        for (Person p : persons) {
+            personMap.put(p.getId(), p);
         }
-        List<Person> payerList = personService.findByIds(ids);
-
         Document document = resource.html(frame.relativePath());
-        printDocument(document, payerList, payerAmounts, payerCount);
+        printDocument(document, personMap, payerReocrds, payerCount, payerAmount);
         circuit.content().writeBytes(document.html().getBytes());
     }
 
-    private void printDocument(Document document, List<Person> payerList, Map<String, PayRecord> payerAmounts, long payerCount) {
-        document.select(".total-group span").html(String.format("你已加%s个群", payerCount));
+    private void printDocument(Document document, Map<String, Person> personMap, List<PayRecord> payerReocrds, long payerCount, long payerAmount) {
+        BigDecimal payersMoney = new BigDecimal(payerAmount).divide(new BigDecimal("100.00"), 2, RoundingMode.DOWN);
+        document.select(".total-group span").html(String.format("你已加%s个人群，赚取总金%s元", payerCount, payersMoney));
         Element memberList = document.select(".group-list").first();
         Element memberLi = memberList.select(".group-info").first().clone();
         Element memberDeliver = memberList.select(".group-deliver").first().clone();
         memberList.empty();
-        for (Person person : payerList) {
+        for (PayRecord record : payerReocrds) {
+            Person person = personMap.get(record.getPayer());
+            if (person == null) {
+                continue;
+            }
             Element li = memberLi.clone();
-            PayRecord record = payerAmounts.get(person.getId());
             BigDecimal decimal = new BigDecimal(record.getAmount()).divide(new BigDecimal("100.00"), 2, RoundingMode.DOWN);
             li.select(".group-amount span").html(decimal.toString());
             li.select(".group-info >img").attr("src", person.getAvatarUrl());

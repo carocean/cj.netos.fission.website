@@ -78,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List">
     <!-- @mbg.generated: generated automatically, do not modify! -->
-    sn, payer, payer_name, payee, payee_name, currency, amount, `state`, ctime, `status`, 
+    sn, payer, payer_name, payee, payee_name, currency, amount, `state`, ctime, `status`,
     message, note
   </sql>
   <select id="selectByExample" parameterType="cj.netos.fission.model.PayRecordExample" resultMap="BaseResultMap">
@@ -98,7 +98,7 @@
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!-- @mbg.generated: generated automatically, do not modify! -->
-    select 
+    select
     <include refid="Base_Column_List" />
     from pay_record
     where sn = #{sn,jdbcType=VARCHAR}
@@ -117,14 +117,14 @@
   </delete>
   <insert id="insert" parameterType="cj.netos.fission.model.PayRecord">
     <!-- @mbg.generated: generated automatically, do not modify! -->
-    insert into pay_record (sn, payer, payer_name, 
-      payee, payee_name, currency, 
-      amount, `state`, ctime, 
+    insert into pay_record (sn, payer, payer_name,
+      payee, payee_name, currency,
+      amount, `state`, ctime,
       `status`, message, note
       )
-    values (#{sn,jdbcType=VARCHAR}, #{payer,jdbcType=VARCHAR}, #{payerName,jdbcType=VARCHAR}, 
-      #{payee,jdbcType=VARCHAR}, #{payeeName,jdbcType=VARCHAR}, #{currency,jdbcType=VARCHAR}, 
-      #{amount,jdbcType=BIGINT}, #{state,jdbcType=INTEGER}, #{ctime,jdbcType=VARCHAR}, 
+    values (#{sn,jdbcType=VARCHAR}, #{payer,jdbcType=VARCHAR}, #{payerName,jdbcType=VARCHAR},
+      #{payee,jdbcType=VARCHAR}, #{payeeName,jdbcType=VARCHAR}, #{currency,jdbcType=VARCHAR},
+      #{amount,jdbcType=BIGINT}, #{state,jdbcType=INTEGER}, #{ctime,jdbcType=VARCHAR},
       #{status,jdbcType=INTEGER}, #{message,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}
       )
   </insert>
@@ -378,6 +378,7 @@
     IFNULL(count(*),0)
     from pay_record
     where payer = #{payer,jdbcType=VARCHAR}
+    and `state` = 1
     and `status` = 200
     and ctime like #{dayTime,jdbcType=VARCHAR}
   </select>
@@ -386,6 +387,7 @@
     <include refid="Base_Column_List" />
     from pay_record
     where payer = #{payer,jdbcType=VARCHAR}
+    and `state` = 1
     and `status` = 200
     order by ctime desc
     limit #{offset},#{limit}
@@ -393,10 +395,17 @@
   <select id="pagePayeeId" parameterType="cj.netos.fission.model.PayRecord" resultType="java.lang.String">
     select
     payee
-    from pay_record
-    where payer = #{payer,jdbcType=VARCHAR}
-    and `status` = 200
-    order by ctime desc
+    from (select payee
+      from (
+          select payee
+          from pay_record
+          where payer = #{payer,jdbcType=VARCHAR}
+            and `state` = 1
+            and `status` = 200
+          order by ctime desc
+               ) as s
+      group by payee
+     ) as g
     limit #{offset},#{limit}
   </select>
   <select id="totalPayer" parameterType="cj.netos.fission.model.PayRecord" resultType="java.lang.Long">
@@ -408,11 +417,19 @@
         and `status` = 200
       group by payer) as a
   </select>
+  <select id="totalPayerAmount" parameterType="cj.netos.fission.model.PayRecord" resultType="java.lang.Long">
+   select IFNULL(sum(amount),0)
+   from pay_record
+   where payee = #{payee,jdbcType=VARCHAR}
+   and `state` = 1
+   and `status` = 200
+  </select>
   <select id="totalPayerOnDay" parameterType="cj.netos.fission.model.PayRecord" resultType="java.lang.Long">
     select
      IFNULL(count(*),0)
     from pay_record
     where payee = #{payee,jdbcType=VARCHAR}
+    and `state` = 1
     and `status` = 200
     and ctime like #{dayTime,jdbcType=VARCHAR}
   </select>
@@ -421,6 +438,7 @@
     <include refid="Base_Column_List" />
     from pay_record
     where payee = #{payee,jdbcType=VARCHAR}
+    and `state` = 1
     and `status` = 200
     order by ctime desc
     limit #{offset},#{limit}
@@ -428,10 +446,17 @@
   <select id="pagePayerId" parameterType="cj.netos.fission.model.PayRecord" resultType="java.lang.String">
     select
     payer
-    from pay_record
-    where payee = #{payee,jdbcType=VARCHAR}
-    and `status` = 200
-    order by ctime desc
-    limit #{offset},#{limit}
+    from (select payer
+      from (
+           select payer
+           from pay_record
+           where payee = #{payee,jdbcType=VARCHAR}
+             and `state` = 1
+             and `status` = 200
+          order by ctime desc
+               ) as s
+      group by payer
+     ) as g
+   limit #{offset},#{limit}
   </select>
 </mapper>

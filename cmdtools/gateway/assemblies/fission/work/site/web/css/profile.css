@@ -199,3 +199,6 @@ body {
 .profile-mask .mask-buttons li.grey span{
     color: #ececec;
 }
+.card[friends] .card-item-subject{
+    margin-bottom: 10px;
+}

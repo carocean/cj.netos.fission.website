@@ -2,8 +2,10 @@ package cj.netos.fission.service;
 
 import cj.netos.fission.*;
 import cj.netos.fission.model.*;
+import cj.studio.ecm.IServiceSite;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
+import cj.studio.ecm.annotation.CjServiceSite;
 import cj.ultimate.util.StringUtil;
 import com.mongodb.client.AggregateIterable;
 import org.bson.Document;
@@ -30,6 +32,8 @@ public class PersonInfoService implements IPersonInfoService, IndexPoolConstants
 
     @CjServiceRef(refByName = "@.redis.cluster")
     JedisCluster jedisCluster;
+    @CjServiceSite
+    IServiceSite site;
 
     @Override
     public long totalPerson() {
@@ -121,12 +125,12 @@ public class PersonInfoService implements IPersonInfoService, IndexPoolConstants
             }
         }
         //匹配常规
-        String key =_KEY_POOL_NORMAL;
+        String key = _KEY_POOL_NORMAL;
         ids = jedisCluster.zrange(key, skip, limit + skip);
         for (String id : ids) {
             idMap.put(id, true);
         }
-        List<String>  pids = new ArrayList<>();
+        List<String> pids = new ArrayList<>();
         pids.addAll(idMap.keySet());
         recommendedService.visitIdList(current.getPerson().getId(), pids);
         List<PersonInfo> infos = new ArrayList<>();
@@ -314,7 +318,11 @@ public class PersonInfoService implements IPersonInfoService, IndexPoolConstants
         }
 
         unionIds = cashierService.listByRuning(unionIds);
-        unionIds = cashierBalanceService.listGreaterThan(unionIds, 60/*只要大于6毛钱视为开放，就可推荐给他人了，*/);
+        String openedAmount = site.getProperty("recommender.user.opened.amount");
+        if (StringUtil.isEmpty(openedAmount)) {
+            openedAmount = "60";
+        }
+        unionIds = cashierBalanceService.listGreaterThan(unionIds, Long.valueOf(openedAmount)/*只要大于6毛钱视为开放，就可推荐给他人了，*/);
 
         return unionIds;
     }

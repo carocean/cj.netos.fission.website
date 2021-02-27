@@ -37,6 +37,13 @@ public class PayRecordService implements IPayRecordService {
     public Long totalPayer(String principal) {
         return payRecordMapper.totalPayer(principal);
     }
+
+    @CjTransaction
+    @Override
+    public Long totalPayerAmount(String principal) {
+        return payRecordMapper.totalPayerAmount(principal);
+    }
+
     @CjTransaction
     @Override
     public long totalPayeeAmount(String payer) {

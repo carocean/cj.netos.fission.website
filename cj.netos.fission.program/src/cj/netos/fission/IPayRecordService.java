@@ -1,6 +1,7 @@
 package cj.netos.fission;
 
 import cj.netos.fission.model.PayRecord;
+import cj.studio.orm.mybatis.annotation.CjTransaction;
 
 import java.util.List;
 
@@ -10,6 +11,9 @@ public interface IPayRecordService {
     long totalPayee(String payer);
 
     Long totalPayer(String payee);
+
+    @CjTransaction
+    Long totalPayerAmount(String principal);
 
     long totalPayeeAmount(String payer);
 

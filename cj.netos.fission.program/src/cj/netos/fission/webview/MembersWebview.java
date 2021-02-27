@@ -48,29 +48,32 @@ public class MembersWebview implements IGatewayAppSiteWayWebView {
         PersonInfo current = personInfoService.getInfo(unionid);
         Person person = current.getPerson();
         long payeeCount = payRecordService.totalPayee(person.getId());
+        long payeeAmount = payRecordService.totalPayeeAmount(person.getId());
         List<PayRecord> payeeReocrds = payRecordService.pagePayeeRecord(person.getId(), 50, 0);
-        List<String> ids = new ArrayList<>();
-        Map<String, PayRecord> payeeAmounts = new HashMap<>();
-        for (PayRecord record : payeeReocrds) {
-            ids.add(record.getPayee());
-            payeeAmounts.put(record.getPayee(), record);
+        List<String> ids = payRecordService.pagePayeeId(person.getId(), 50, 0);
+        List<Person> persons = personService.findByIds(ids);
+        Map<String, Person> personMap = new HashMap<>();
+        for (Person p : persons) {
+            personMap.put(p.getId(), p);
         }
-        List<Person> payeeList = personService.findByIds(ids);
-
         Document document = resource.html(frame.relativePath());
-        printDocument(document, payeeList, payeeAmounts, payeeCount);
+        printDocument(document, personMap, payeeReocrds, payeeCount,payeeAmount);
         circuit.content().writeBytes(document.html().getBytes());
     }
 
-    private void printDocument(Document document, List<Person> payeeList, Map<String, PayRecord> payeeAmounts, long payeeCount) {
-        document.select(".total-member span").html(String.format("你的群已发展%s个成员",payeeCount));
+    private void printDocument(Document document, Map<String, Person> personMap, List<PayRecord> payerReocrds, long payeeCount, long payeeAmount) {
+        BigDecimal payeesMoney = new BigDecimal(payeeAmount).divide(new BigDecimal("100.00"), 2, RoundingMode.DOWN);
+        document.select(".total-member span").html(String.format("你的群已发展%s个成员，共支出%s元",payeeCount,payeesMoney));
         Element memberList = document.select(".member-list").first();
         Element memberLi = memberList.select(".member-info").first().clone();
         Element memberDeliver = memberList.select(".member-deliver").first().clone();
         memberList.empty();
-        for (Person person : payeeList) {
+        for (PayRecord record : payerReocrds) {
+            Person person = personMap.get(record.getPayee());
+            if (person == null) {
+                continue;
+            }
             Element li = memberLi.clone();
-            PayRecord record = payeeAmounts.get(person.getId());
             BigDecimal decimal = new BigDecimal(record.getAmount()).divide(new BigDecimal("100.00"), 2, RoundingMode.DOWN);
             li.select(".member-amount span").html("-"+decimal.toString());
             li.select(".member-info >img").attr("src", person.getAvatarUrl());
