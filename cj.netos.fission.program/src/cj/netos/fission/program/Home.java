@@ -74,6 +74,7 @@ public class Home implements IGatewayAppSiteWayWebView {
         if (persons.isEmpty()) {
             printEmpty(current, document);
         } else {
+            document.select(".empty-panel").remove();
             printPersonList(persons, document, (String) httpFrame.session().attribute("accessToken"));
         }
         circuit.content().writeBytes(document.html().getBytes());
