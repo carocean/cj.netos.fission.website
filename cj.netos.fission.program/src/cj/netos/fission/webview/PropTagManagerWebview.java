@@ -1,9 +1,6 @@
 package cj.netos.fission.webview;
 
-import cj.netos.fission.IPersonInfoService;
 import cj.netos.fission.ITagService;
-import cj.netos.fission.model.PersonInfo;
-import cj.netos.fission.model.Tag;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
 import cj.studio.ecm.net.Circuit;
@@ -14,10 +11,6 @@ import cj.studio.ecm.net.session.ISession;
 import cj.studio.gateway.socket.app.IGatewayAppSiteResource;
 import cj.studio.gateway.socket.app.IGatewayAppSiteWayWebView;
 import cj.ultimate.util.StringUtil;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
-import java.util.List;
 
 
 @CjService(name = "/pages/prop-tag-manager.service")
