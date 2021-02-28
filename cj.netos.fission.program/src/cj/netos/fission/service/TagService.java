@@ -5,16 +5,21 @@ import cj.lns.chip.sos.cube.framework.IQuery;
 import cj.lns.chip.sos.cube.framework.TupleDocument;
 import cj.netos.fission.AbstractService;
 import cj.netos.fission.ITagService;
+import cj.netos.fission.IUpdateManager;
+import cj.netos.fission.UpdateEvent;
 import cj.netos.fission.model.LimitTag;
 import cj.netos.fission.model.PropertyTag;
 import cj.netos.fission.model.Tag;
 import cj.studio.ecm.annotation.CjService;
+import cj.studio.ecm.annotation.CjServiceRef;
 import cj.ultimate.gson2.com.google.gson.Gson;
 
 import java.util.*;
 
 @CjService(name = "tagService")
 public class TagService extends AbstractService implements ITagService {
+    @CjServiceRef
+    IUpdateManager updateManager;
     @Override
     public List<Tag> listAllTag() {
         String cjql = String.format("select {'tuple':'*'}.sort({'tuple.sort':1}) from tuple %s %s where {}", _KEY_COL_TAGS, Tag.class.getName());
@@ -30,6 +35,15 @@ public class TagService extends AbstractService implements ITagService {
     @Override
     public void removePropTag(String unionid, String tagId) {
         getHome().deleteDocOne(_KEY_COL_PROP_TAGS, String.format("{'tuple.person':'%s','tuple.tag':'%s'}", unionid, tagId));
+
+        UpdateEvent event = new UpdateEvent();
+        event.setPerson(unionid);
+        event.setCtime(System.currentTimeMillis());
+        event.setEvent("remove-prop-tag");
+        Map<String, Object> data = new HashMap<>();
+        data.put("tagId", tagId);
+        event.setData(data);
+        updateManager.addEvent(event);
     }
 
     @Override
@@ -41,6 +55,15 @@ public class TagService extends AbstractService implements ITagService {
         propertyTag.setPerson(unionid);
         propertyTag.setTag(tagId);
         getHome().saveDoc(_KEY_COL_PROP_TAGS, new TupleDocument<>(propertyTag));
+
+        UpdateEvent event = new UpdateEvent();
+        event.setPerson(unionid);
+        event.setCtime(System.currentTimeMillis());
+        event.setEvent("add-prop-tag");
+        Map<String, Object> data = new HashMap<>();
+        data.put("tagId", tagId);
+        event.setData(data);
+        updateManager.addEvent(event);
     }
 
     @Override

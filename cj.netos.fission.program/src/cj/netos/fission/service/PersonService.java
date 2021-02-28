@@ -5,23 +5,25 @@ import cj.lns.chip.sos.cube.framework.IQuery;
 import cj.lns.chip.sos.cube.framework.TupleDocument;
 import cj.netos.fission.AbstractService;
 import cj.netos.fission.IPersonService;
+import cj.netos.fission.IUpdateManager;
+import cj.netos.fission.UpdateEvent;
 import cj.netos.fission.model.LatLng;
 import cj.netos.fission.model.Person;
 import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.annotation.CjService;
+import cj.studio.ecm.annotation.CjServiceRef;
 import cj.studio.ecm.net.CircuitException;
 import cj.ultimate.gson2.com.google.gson.Gson;
 import com.mongodb.client.AggregateIterable;
 import com.mongodb.client.ListIndexesIterable;
 import org.bson.Document;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @CjService(name = "personService")
 public class PersonService extends AbstractService implements IPersonService {
+    @CjServiceRef
+    IUpdateManager updateManager;
     @Override
     public void createGeoIndex() {
         //为感知器和文档创建地理索引
@@ -201,5 +203,15 @@ public class PersonService extends AbstractService implements IPersonService {
         String filter = String.format("{'tuple.id':'%s'}",unionid);
         String update = String.format("{'$set':{'tuple.location':%s}}",new Gson().toJson(latLng));
         getHome().updateDocOne(_KEY_COL, Document.parse(filter), Document.parse(update));
+
+        UpdateEvent event = new UpdateEvent();
+        event.setPerson(unionid);
+        event.setCtime(System.currentTimeMillis());
+        event.setEvent("update-location");
+        Map<String, Object> data = new HashMap<>();
+        data.put("latitude", latLng.latitude());
+        data.put("longitude", latLng.longitude());
+        event.setData(data);
+        updateManager.addEvent(event);
     }
 }
