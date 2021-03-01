@@ -74,6 +74,7 @@ public class WXOauth2Code implements IGatewayAppSiteWayWebView, IServiceAfter {
             Response response = call.execute();
             String json = response.body().string();
             Map<String, Object> map = new Gson().fromJson(json, HashMap.class);
+//            CJSystem.logging().info(getClass(),String.format("auth服务返回：%s",map));
             String dataText = (String) map.get("dataText");
             Map<String,Object> obj=new Gson().fromJson(dataText,HashMap.class);
 //            System.out.println(obj);
