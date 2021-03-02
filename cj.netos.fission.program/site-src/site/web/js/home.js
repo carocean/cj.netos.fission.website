@@ -66,8 +66,8 @@ $(document).ready(function () {
             // if (typeof attachment != 'undefined' && attachment != null && attachment != '') {
             //     imgUrl = attachment;
             // }
-            fission.sharePYC(state, '来交个朋友吧！还有抢不完的红包哦。'+nickName+'已经抢了¥' + totalAmount + '元，认识了'+friendCount+'个朋友。', imgUrl);
-            fission.shareCR(state, '来交个朋友吧！还有抢不完的红包哦。', imgUrl,nickName+' 已经抢了¥' + totalAmount + '元，认识了'+friendCount+'个朋友。');
+            fission.sharePYC(state, '来交个朋友吧！还有红包哦。'+nickName+'已经抢了¥' + totalAmount + '元，认识了'+friendCount+'个朋友。', imgUrl);
+            fission.shareCR(state, '来交个朋友吧！还有红包哦。', imgUrl,nickName+' 已经抢了¥' + totalAmount + '元，认识了'+friendCount+'个朋友。');
             wx.getLocation({
                 type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
                 success: function (res) {
