@@ -72,7 +72,9 @@ public class Home implements IGatewayAppSiteWayWebView {
         recommendsE.attr("nickName", current.getPerson().getNickName());
         recommendsE.attr("balance", new BigDecimal(current.getBalance()).divide(new BigDecimal("100.00"), 2, RoundingMode.DOWN).toString());
         recommendsE.attr("distance", current.getDistance() + "");
-        long totalAmount = payRecordService.totalPayerAmountOnToday(unionid);
+        long friendCount = payRecordService.totalPayer(unionid);
+        recommendsE.attr("friendCount", friendCount + "");
+        long totalAmount = payRecordService.totalPayerAmount(unionid);
         recommendsE.attr("totalAmount", new BigDecimal(totalAmount).divide(new BigDecimal("100.00"), 2, RoundingMode.DOWN).toString());
 //        Attachment attachment = attachmentService.getInfo(unionid);
 //        if(attachment!=null&&"image".equals(attachment.getType())){

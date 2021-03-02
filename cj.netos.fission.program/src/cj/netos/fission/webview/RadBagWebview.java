@@ -113,7 +113,9 @@ public class RadBagWebview implements IGatewayAppSiteWayWebView {
         element.attr("nickName", current.getPerson().getNickName());
         element.attr("balance", new BigDecimal(current.getBalance()).divide(new BigDecimal("100.00"), 2, RoundingMode.DOWN).toString());
         element.attr("distance", current.getDistance() + "");
-        long totalAmount = payRecordService.totalPayerAmountOnToday(current.getPerson().getId());
+        long friendCount = payRecordService.totalPayer(current.getPerson().getId());
+        element.attr("friendCount", friendCount + "");
+        long totalAmount = payRecordService.totalPayerAmount(current.getPerson().getId());
         element.attr("totalAmount", new BigDecimal(totalAmount).divide(new BigDecimal("100.00"), 2, RoundingMode.DOWN).toString());
     }
 

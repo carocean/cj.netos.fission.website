@@ -60,13 +60,14 @@ $(document).ready(function () {
             var nickName = recommendE.attr('nickName');
             var balance = recommendE.attr('balance');
             var distance = recommendE.attr('distance');
+            var friendCount = recommendE.attr('friendCount');
             var totalAmount = recommendE.attr('totalAmount');//今日总收入
             var imgUrl = 'http://www.nodespower.com/img/redbag.jpg';
             // if (typeof attachment != 'undefined' && attachment != null && attachment != '') {
             //     imgUrl = attachment;
             // }
-            fission.sharePYC(state, nickName+'邀请你抢红包！他今天抢了¥' + totalAmount + '元。上亿元红包等你抢！', imgUrl);
-            fission.shareCR(state, '上亿元红包等你抢！', imgUrl,nickName+'邀请你抢红包！他今天抢了¥' + totalAmount + '元。');
+            fission.sharePYC(state, '来交个朋友吧！还有抢不完的红包哦。'+nickName+'已经抢了¥' + totalAmount + '元，认识了'+friendCount+'个朋友。', imgUrl);
+            fission.shareCR(state, '来交个朋友吧！还有抢不完的红包哦。', imgUrl,nickName+' 已经抢了¥' + totalAmount + '元，认识了'+friendCount+'个朋友。');
             wx.getLocation({
                 type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
                 success: function (res) {
