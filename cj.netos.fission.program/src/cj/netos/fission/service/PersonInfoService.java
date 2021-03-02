@@ -141,6 +141,9 @@ public class PersonInfoService implements IPersonInfoService, IndexPoolConstants
                 continue;
             }
             Person p = personService.get(id);
+            if (p == null) {
+                continue;
+            }
             PersonInfo info = loadPersonInfo(p);
             if (cannotRecommend(info)) {
                 continue;
@@ -274,7 +277,7 @@ public class PersonInfoService implements IPersonInfoService, IndexPoolConstants
             }
             Person p = personService.get(id);
             PersonInfo info = loadPersonInfo(p);
-            if (cannotRecommend(info)) {
+            if (info==null||cannotRecommend(info)) {
                 continue;
             }
             infos.add(info);
@@ -283,7 +286,7 @@ public class PersonInfoService implements IPersonInfoService, IndexPoolConstants
     }
 
     boolean cannotRecommend(PersonInfo info) {
-        if (info.getCashier().getState() == 1) {
+        if (info.getCashier()==null||info.getCashier().getState() == 1) {
             return true;
         }
         String openedAmount = site.getProperty("recommender.user.opened.amount");

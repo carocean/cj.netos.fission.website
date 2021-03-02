@@ -6,6 +6,7 @@ import cj.netos.fission.IPersonService;
 import cj.netos.fission.IRecommenderService;
 import cj.netos.fission.model.Person;
 import cj.netos.fission.model.PersonInfo;
+import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.IServiceSite;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
@@ -39,8 +40,22 @@ public class Home implements IGatewayAppSiteWayWebView {
     IPayRecordService payRecordService;
     @CjServiceRef
     IPersonService personService;
+
     @Override
     public void flow(Frame frame, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
+        try {
+            doFlow(frame, circuit, resource);
+        } catch (Exception e) {
+            CJSystem.logging().error(getClass(), e);
+            CircuitException ce = CircuitException.search(e);
+            if (ce != null) {
+                throw ce;
+            }
+            throw new CircuitException("500", e);
+        }
+    }
+
+    private void doFlow(Frame frame, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
         HttpFrame httpFrame = (HttpFrame) frame;
         ISession session = httpFrame.session();
         String unionid = (String) session.attribute("unionid");

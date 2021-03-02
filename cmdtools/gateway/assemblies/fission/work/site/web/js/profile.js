@@ -44,10 +44,10 @@ $(document).ready(function () {
         try {
             var amountYuan = parseFloat(val);
             // alert(amountYuan);
-            // if (amountYuan < lowest) {
-            //     alert('起充金额至少100元');
-            //     return;
-            // }
+            if (amountYuan < lowest) {
+                alert('起充金额至少100元');
+                return;
+            }
             amount = parseInt(amountYuan * 100);
             // alert(amount);
         } catch (e) {

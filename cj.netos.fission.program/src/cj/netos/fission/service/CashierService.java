@@ -5,6 +5,7 @@ import cj.netos.fission.mapper.CashierBalanceMapper;
 import cj.netos.fission.mapper.CashierMapper;
 import cj.netos.fission.model.Cashier;
 import cj.netos.fission.model.CashierExample;
+import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.annotation.CjBridge;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
@@ -40,6 +41,10 @@ public class CashierService implements ICashierService {
     @CjTransaction
     @Override
     public List<String> listByRuning(List<String> unionIds) {
+        if (unionIds.isEmpty()) {
+            return new ArrayList<>();
+        }
+//        CJSystem.logging().info(getClass(),String.format("这是错误ids:%s",unionIds));
         CashierExample example = new CashierExample();
         example.createCriteria().andStateEqualTo(0).andPersonIn(unionIds);
         List<Cashier> cashiers = cashierMapper.selectByExample(example);

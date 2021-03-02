@@ -21,12 +21,22 @@ public class CashierBalanceService implements ICashierBalanceService {
     @CjTransaction
     @Override
     public CashierBalance getBalance(String unionid) {
-        return cashierBalanceMapper.selectByPrimaryKey(unionid);
+        CashierBalance balance = cashierBalanceMapper.selectByPrimaryKey(unionid);
+        if (balance == null) {
+            balance = new CashierBalance();
+            balance.setBalance(0L);
+            balance.setPerson(unionid);
+            cashierBalanceMapper.insert(balance);
+        }
+        return balance;
     }
 
     @CjTransaction
     @Override
     public List<String> listGreaterThan(List<String> unionIds, long balance) {
+        if (unionIds.isEmpty()) {
+            return new ArrayList<>();
+        }
         CashierBalanceExample example = new CashierBalanceExample();
         example.createCriteria().andPersonIn(unionIds).andBalanceGreaterThan(balance);
         List<CashierBalance> balances = cashierBalanceMapper.selectByExample(example);
