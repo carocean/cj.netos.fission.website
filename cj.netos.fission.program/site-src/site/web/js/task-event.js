@@ -10,7 +10,7 @@ $(document).ready(function () {
     var nickName = taskCenter.attr('nickName');
     var balance = taskCenter.attr('balance');
     var distance = taskCenter.attr('distance');
-    var friendCount = recommendE.attr('friendCount');
+    var friendCount = taskCenter.attr('friendCount');
     var totalAmount = taskCenter.attr('totalAmount');//今日总收入
     var imgUrl = 'http://www.nodespower.com/img/redbag.jpg';
     // if (typeof attachment != 'undefined' && attachment != null && attachment != '') {
