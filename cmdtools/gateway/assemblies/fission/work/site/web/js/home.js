@@ -119,7 +119,7 @@ $(document).ready(function () {
         iframe.attr('src', url);
     });
 
-    $('.person').on('click', function () {
+    $('.person').one('click', function () {
         var li = $(this);
         var mask = li.find(".person-mask");
         if (mask.is(':visible')) {

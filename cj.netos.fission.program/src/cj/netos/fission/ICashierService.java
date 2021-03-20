@@ -9,4 +9,5 @@ public interface ICashierService {
 
     List<String> listByRuning(List<String> unionIds);
 
+    void setReferrer(String person, String referrer,String referrerName);
 }

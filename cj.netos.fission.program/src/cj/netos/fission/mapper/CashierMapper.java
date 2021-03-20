@@ -62,5 +62,6 @@ public interface CashierMapper {
      */
     int updateByPrimaryKey(Cashier record);
 
+    void setReferrer(@Param(value = "person") String person,@Param(value = "referrer")String referrer, @Param(value = "referrerName")String referrerName);
 
 }

@@ -7,6 +7,6 @@ $(document).ready(function () {
         return false;
     });
     $('.nav-fixed span[download]').on('click',function () {
-       window.location.href='http://nodespower.com/qrslice/downloads.html';
+       parent.location.href='http://nodespower.com/qrslice/downloads.html';
     });
 });

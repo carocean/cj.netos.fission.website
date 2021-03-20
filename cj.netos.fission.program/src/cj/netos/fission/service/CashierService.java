@@ -34,10 +34,12 @@ public class CashierService implements ICashierService {
             cashier.setCacAverage(30L);
             cashier.setAmplitudeFactor(new BigDecimal("1.6"));
             cashier.setClosedCause(null);
+            cashier.setSupportsChatroom(0);
             cashierMapper.insert(cashier);
         }
         return cashier;
     }
+
     @CjTransaction
     @Override
     public List<String> listByRuning(List<String> unionIds) {
@@ -53,5 +55,11 @@ public class CashierService implements ICashierService {
             ids.add(cashier.getPerson());
         }
         return ids;
+    }
+
+    @CjTransaction
+    @Override
+    public void setReferrer(String person, String referrer, String referrerName) {
+        cashierMapper.setReferrer(person,referrer,referrerName);
     }
 }

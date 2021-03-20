@@ -6,7 +6,12 @@ $(document).ready(function(){
         {return decodeURIComponent(r[2]); }
         return null; //返回参数值
     }
-    var url=encodeURIComponent('http://nodespower.com/fission-mf-website/wechat/auth.html');
+    var referrer=getUrlParam('person');
+    var url='http://nodespower.com/fission-mf-website/wechat/auth.html';
+    if(typeof referrer!='undefined'&&referrer!=null&&referrer!=''){
+        url=url+'?referrer='+referrer;
+    }
+    url=encodeURIComponent(url);
     var stateParam=getUrlParam('state');
     var state='';
     if (typeof stateParam == 'undefined' || stateParam == null || stateParam == '') {

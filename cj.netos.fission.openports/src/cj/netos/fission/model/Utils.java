@@ -37,9 +37,18 @@ public class Utils {
         SimpleDateFormat format1 = new SimpleDateFormat("MM月dd日 HH:mm:ss");
         return format1.format(date);
     }
-    public static String timeToStr(long time){
-        Date date=new Date(time);
+
+    public static String timeToStr(long time) {
+        Date date = new Date(time);
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         return format.format(date);
+    }
+
+    public static String getSimplePerson(String fullName) {
+        int pos = fullName.lastIndexOf("@");
+        if (pos < 0) {
+            return fullName;
+        }
+        return fullName.substring(0, pos);
     }
 }

@@ -1,8 +1,10 @@
 package cj.netos.fission.webview;
 
+import cj.netos.fission.ICashierService;
 import cj.netos.fission.IPersonService;
 import cj.netos.fission.IRandRecommendService;
 import cj.netos.fission.model.Person;
+import cj.netos.fission.model.Utils;
 import cj.studio.ecm.CJSystem;
 import cj.studio.ecm.IServiceAfter;
 import cj.studio.ecm.IServiceSite;
@@ -33,7 +35,10 @@ public class WXOauth2Code implements IGatewayAppSiteWayWebView, IServiceAfter {
     IPersonService personService;
     @CjServiceRef
     IRandRecommendService randRecommendService;
+    @CjServiceRef
+    ICashierService cashierService;
     String authPorts;
+
     @Override
     public void onAfter(IServiceSite site) {
         authPorts = site.getProperty("rhub.ports.auth");
@@ -51,22 +56,22 @@ public class WXOauth2Code implements IGatewayAppSiteWayWebView, IServiceAfter {
         if (StringUtil.isEmpty(code)) {
             return;
         }
-        String nonce=Encript.md5(UUID.randomUUID().toString());
-        String signe = Encript.md5(String.format("%s%s%s", appKey, nonce,appSecret));
+        String nonce = Encript.md5(UUID.randomUUID().toString());
+        String signe = Encript.md5(String.format("%s%s%s", appKey, nonce, appSecret));
         //注意：如果用户选了"拒绝"而执行以下代码获取令牌，则下次就不会弹出微信的授权页了。
-        String url=String.format("%s?deviceType=web",authPorts);
+        String url = String.format("%s?deviceType=web", authPorts);
         Map<String, Object> form = new HashMap<>();
-        form.put("code",code);
-        form.put("state",state);
-        form.put("device",String.format("%s",Encript.md5("web")));
-        RequestBody data=RequestBody.create(new Gson().toJson(form).getBytes());
+        form.put("code", code);
+        form.put("state", state);
+        form.put("device", String.format("%s", Encript.md5("web")));
+        RequestBody data = RequestBody.create(new Gson().toJson(form).getBytes());
         try {
             Request request = new Request.Builder()
-                    .header("Rest-Command","authByWeChat")
-                    .header("app-id",appid)
-                    .header("app-key",appKey)
-                    .header("app-nonce",nonce)
-                    .header("app-sign",signe)
+                    .header("Rest-Command", "authByWeChat")
+                    .header("app-id", appid)
+                    .header("app-key", appKey)
+                    .header("app-nonce", nonce)
+                    .header("app-sign", signe)
                     .url(url)
                     .post(data)//默认就是GET请求，可以不写
                     .build();
@@ -76,22 +81,22 @@ public class WXOauth2Code implements IGatewayAppSiteWayWebView, IServiceAfter {
             Map<String, Object> map = new Gson().fromJson(json, HashMap.class);
 //            CJSystem.logging().info(getClass(),String.format("auth服务返回：%s",map));
             String dataText = (String) map.get("dataText");
-            Map<String,Object> obj=new Gson().fromJson(dataText,HashMap.class);
+            Map<String, Object> obj = new Gson().fromJson(dataText, HashMap.class);
 //            System.out.println(obj);
-            Map<String,Object> subject= (Map<String, Object>) obj.get("subject");
-            Map<String,Object> token= (Map<String, Object>) obj.get("token");
+            Map<String, Object> subject = (Map<String, Object>) obj.get("subject");
+            Map<String, Object> token = (Map<String, Object>) obj.get("token");
             String accessToken = (String) token.get("accessToken");
             String unionid = (String) subject.get("accountCode");
             //采用uc中心的authByWechat接口认证，获取netos体系的accessToken
             if (personService.exists(unionid)) {
-                forwardHome(unionid,accessToken,frame,resource,circuit);
+                forwardHome(unionid, accessToken, frame, resource, circuit);
                 return;
             }
 
-            Person person=Person.parse(subject,token);
+            Person person = Person.parse(subject, token);
             personService.add(person);
             randRecommendService.cachePerson(person);
-            forwardHome(unionid,accessToken,frame,resource,circuit);
+            forwardHome(unionid, accessToken, frame, resource, circuit);
         } catch (Exception e) {
             CircuitException ce = CircuitException.search(e);
             if (ce != null) {
@@ -101,12 +106,20 @@ public class WXOauth2Code implements IGatewayAppSiteWayWebView, IServiceAfter {
         }
     }
 
-    private void forwardHome(String unionid,String accessToken,Frame frame,IGatewayAppSiteResource resource, Circuit circuit) {
-        HttpFrame httpFrame= (HttpFrame) frame;
-        httpFrame.session().attribute("unionid",unionid);
-        httpFrame.session().attribute("accessToken",accessToken);
-        String url=String.format("%s/home.html?state=%s",frame.rootPath(),frame.parameter("state"));
-        resource.redirect(url,circuit);
+    private void forwardHome(String unionid, String accessToken, Frame frame, IGatewayAppSiteResource resource, Circuit circuit) {
+        String referrer = frame.parameter("referrer");
+        if (!StringUtil.isEmpty(referrer)) {
+            referrer = Utils.getSimplePerson(referrer);
+            Person person = personService.get(referrer);
+            if (person != null) {
+                cashierService.setReferrer(unionid, person.getId(), person.getNickName());
+            }
+        }
+        HttpFrame httpFrame = (HttpFrame) frame;
+        httpFrame.session().attribute("unionid", unionid);
+        httpFrame.session().attribute("accessToken", accessToken);
+        String url = String.format("%s/home.html?state=%s", frame.rootPath(), frame.parameter("state"));
+        resource.redirect(url, circuit);
     }
 
 
