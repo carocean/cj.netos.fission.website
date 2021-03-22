@@ -6,7 +6,7 @@
     margin-left: -120px;
     width: 240px;
 }
-.task-center .task-note{
+.task-center .task-info{
     font-size: 14px;
     margin-bottom: 30px;
     background: yellow;
@@ -24,4 +24,31 @@
     background: green;
     color: white;
     box-shadow: 0px 0px 8px #888888;
+}
+
+.task-center .task-info .event-title .label{
+    font-size: 16px;
+    font-weight: bold;
+}
+.task-center .task-info .event-title .title{
+    font-size: 16px;
+    color: red;
+}
+.task-center .task-info >p{
+    padding: 6px 0;
+}
+.task-center .task-info .event-note{
+    font-size: 16px;
+    padding: 5px;
+}
+.task-center .task-info .event-nav{
+    font-size: 16px;
+    color: red;
+}
+.task-center .task-info .event-nav .task-eclipse{
+    font-size: 20px;
+    display: inline-block;
+    padding: 0px 5px;
+    color: black;
+    font-weight: bold;
 }

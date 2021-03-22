@@ -26,7 +26,7 @@ public class RecommenderService implements IRecommenderService {
         }
 //        recommendedService.emptyVisits(unionid);//为调试而清除,生产环境必须注释掉
 
-        int limit = count * 2;
+        int limit = count;
         long skip = 0;
         CJSystem.logging().info(getClass(), String.format("开始为用户:%s 推荐，limit=%s", current.getPerson().getNickName(), limit));
         while (skip < totalPerson) {

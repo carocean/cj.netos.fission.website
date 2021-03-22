@@ -25,7 +25,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.ParseException;
 import java.util.List;
-import java.util.UUID;
 
 @CjService(name = "/pages/red-bag.html")
 public class RadBagWebview implements IGatewayAppSiteWayWebView {
@@ -65,48 +64,95 @@ public class RadBagWebview implements IGatewayAppSiteWayWebView {
         if (StringUtil.isEmpty(limitOpTimers)) {
             limitOpTimers = "3";
         }
-        if (opTimers >= Integer.valueOf(limitOpTimers)) {
-            String state = frame.parameter("state");
-            String condition = counter.getCondition();
-            if (!StringUtil.isEmpty(condition) && condition.equals(state)) {
-                //说明是由分享链接进来的，则记录任务并清零
-                taskService.doEvent(unionid, personInfo.getPerson().getNickName(), "share", "分享");
-            } else {
-                if (!StringUtil.isEmpty(condition) && !StringUtil.isEmpty(state) && state.startsWith("rdm:")) {//这说明已经分享了，但没有从分享链接进来，因此提示他从分享链接点进来
-                    Document document = resource.html("/pages/task-tips.html");
-                    Element taskCenterE = document.select(".task-center").first();
-                    taskCenterE.attr("state", condition);
-                    renderShareInfo(personInfo, taskCenterE);
-                    circuit.content().writeBytes(document.html().getBytes());
-                    return;
-                }
-                if (!StringUtil.isEmpty(condition) && !condition.equals(state)) {//说明用户以过期的条件进来
-                    Document document = resource.html("/pages/task-tips.html");
-                    Element taskCenterE = document.select(".task-center").first();
-                    taskCenterE.attr("state", condition);
-                    renderShareInfo(personInfo, taskCenterE);
-                    document.select(".task-tips .task-subject").html("你不是从最近一次的分享链接进入本游戏！");
-                    circuit.content().writeBytes(document.html().getBytes());
-                    return;
-                }
-                //返回分享页面
-                if (StringUtil.isEmpty(condition)) {
-                    condition = taskService.genCondition(unionid);
-                }
-                Document document = resource.html("/pages/task-event.html");
-                Element taskCenterE = document.select(".task-center").first();
-                taskCenterE.attr("state", condition);
-                renderShareInfo(personInfo, taskCenterE);
-                circuit.content().writeBytes(document.html().getBytes());
-                return;
-            }
+        if (opTimers < Integer.valueOf(limitOpTimers)) {
+            //以下是拆包页面
+            doResponse(frame, circuit, resource, personInfo, redBagOwnerPerson, accessToken);
+            return;
         }
-        //以下是抢红包页面
-        Document document = resource.html(frame.relativePath());
 
+        //以下是任务处理
+        String state = frame.parameter("state");
+        String condition = counter.getCondition();
+        if (StringUtil.isEmpty(condition) || StringUtil.isEmpty(counter.getTask())) {//产生任务
+            condition = taskService.genCondition(unionid);
+            counter = taskService.getCounter(unionid);
+            //渲染任务
+            TaskPool task = taskService.getTask(counter.getTask());
+            renderTask(circuit, resource, personInfo, condition, task);
+            return;
+        }
+        //如果有任务，先看是否符合分享任务的完成条件，如果是则完成分享任务；否则渲染任务提示
+        TaskPool task = taskService.getTask(counter.getTask());
+        boolean isShareTask = task.getTask().startsWith("share");
+        String currentCond= Encript.md5(String.format("%s%s",task.getTask(),condition));
+        if (isShareTask && currentCond.equalsIgnoreCase(state)) {//只有分享任务在此清零，其它任务都是在app中清零
+            //说明是由分享链接进来的，则记录任务并清零
+            taskService.doneTask(unionid, personInfo.getPerson().getNickName(), task.getTask(), task.getEventTitle());
+            //任务清除后并拆包
+            doResponse(frame, circuit, resource, personInfo, redBagOwnerPerson, accessToken);
+            return;
+        }
+        //渲染任务提示
+        if (isShareTask) {//如果是分享任务
+            renderShareTips(condition, state, personInfo, task, circuit, resource);
+            return;
+        }
+        //如果是其它任务
+        //如果任务待完成则提示，否则渲染要处理的任务
+        renderOtherTips(condition,  personInfo, task, circuit, resource);
+    }
+
+    private void doResponse(Frame frame, Circuit circuit, IGatewayAppSiteResource resource, PersonInfo personInfo, PersonInfo redBagOwnerPerson, String accessToken) throws CircuitException {
+        Document document = resource.html(frame.relativePath());
         printDoc(personInfo, redBagOwnerPerson, document, accessToken);
         circuit.content().writeBytes(document.html().getBytes());
     }
+
+    private void renderOtherTips( String condition, PersonInfo personInfo, TaskPool task, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
+        Document document = resource.html("/pages/task-tips.html");
+        Element taskCenterE = document.select(".task-center").first();
+        taskCenterE.attr("state", condition);
+        taskCenterE.select(".tips-title .title").html(task.getTipsTitle());
+        taskCenterE.select(".tips-note").html(task.getTipsNote());
+        taskCenterE.select(".tips-nav").html(task.getTipsNav());
+        renderShareInfo(personInfo, taskCenterE);
+        circuit.content().writeBytes(document.html().getBytes());
+    }
+
+    private void renderShareTips(String condition, String state, PersonInfo personInfo, TaskPool task, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
+        if (!StringUtil.isEmpty(state) && state.startsWith("rdm:")) {//这说明已经分享了，但没有从分享链接进来，因此提示他从分享链接点进来
+            Document document = resource.html("/pages/task-tips.html");
+            Element taskCenterE = document.select(".task-center").first();
+            taskCenterE.attr("state", condition);
+            taskCenterE.select(".tips-title .title").html(task.getTipsTitle());
+            taskCenterE.select(".tips-note").html(task.getTipsNote());
+            taskCenterE.select(".tips-nav").html(task.getTipsNav());
+            renderShareInfo(personInfo, taskCenterE);
+            circuit.content().writeBytes(document.html().getBytes());
+            return;
+        }
+        //提示不是从最近一次分享进来
+        Document document = resource.html("/pages/task-tips.html");
+        Element taskCenterE = document.select(".task-center").first();
+        taskCenterE.attr("state", condition);
+        taskCenterE.select(".tips-title .title").html("你不是从最近一次的分享链接进入本游戏！");
+        taskCenterE.select(".tips-note").html(task.getTipsNote());
+        taskCenterE.select(".tips-nav").html(task.getTipsNav());
+        renderShareInfo(personInfo, taskCenterE);
+        circuit.content().writeBytes(document.html().getBytes());
+    }
+
+    private void renderTask(Circuit circuit, IGatewayAppSiteResource resource, PersonInfo personInfo, String condition, TaskPool task) throws CircuitException {
+        Document document = resource.html("/pages/task-event.html");
+        Element taskCenterE = document.select(".task-center").first();
+        taskCenterE.attr("state", condition);
+        taskCenterE.select(".event-title .title").html(task.getEventTitle());
+        taskCenterE.select(".event-note").html(task.getEventNote());
+        taskCenterE.select(".event-nav").html(task.getEventNav());
+        renderShareInfo(personInfo, taskCenterE);
+        circuit.content().writeBytes(document.html().getBytes());
+    }
+
 
     private void renderShareInfo(PersonInfo current, Element element) {
         element.attr("avatar", current.getPerson().getAvatarUrl());

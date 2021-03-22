@@ -2,6 +2,8 @@ if (typeof window.fission == 'undefined') {
     window.fission = {}
     window.fission.sharePYC = function (state, title, imgUrl) {
         // alert('share state:'+state);
+        // alert('md5:'+$.md5(state));
+        state=$.md5('shareToWxTimeLine'+state);
         var link = 'http://nodespower.com/fission-mf-website/?state=' + state;
         //分享到朋友圈
         wx.updateTimelineShareData({//updateTimelineShareData
@@ -23,6 +25,8 @@ if (typeof window.fission == 'undefined') {
     }
     window.fission.shareCR = function (state, title, imgUrl, desc) {
         // alert('share state:'+state);
+        // alert('md5:'+$.md5(state));
+        state=$.md5('shareToWxSession'+state);
         var link = 'http://nodespower.com/fission-mf-website/?state=' + state;
         wx.updateAppMessageShareData({
             title: title, // 分享标题

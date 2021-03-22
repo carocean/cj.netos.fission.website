@@ -1,0 +1,68 @@
+[
+  {
+    "task":"shareToWxSession",
+    "isMustDo": true,
+    "eventTitle": "请分享到微信群<b>（必须是群）</b>",
+    "eventNav": "请点右上角的<span class='task-eclipse'>···</span>按钮分享到微信群。",
+    "eventNote": "分享后一定要从你最近一次分享的链接点击进入才能继续抢红包！",
+    "tipsTitle": "你现在需要从分享的链接点进来才可继续！",
+    "tipsNav":  "请点右上角的<span class='task-eclipse'>···</span>按钮分享到微信群。",
+    "tipsNote": "如果你先前未分享到<span style='color:red;'>微信群</span>，这说明你还没有分享的链接，现在就分享吧。",
+    "state": 1
+  },
+  {
+    "task":"shareToWxTimeLine",
+    "isMustDo": true,
+    "eventTitle": "请分享到朋友圈<b>（必须是朋友圈）</b>",
+    "eventNav": "请点右上角的<span class='task-eclipse'>···</span>按钮分享到朋友圈。",
+    "eventNote": "分享后一定要从你最近一次分享的链接点击进入才能继续抢红包！",
+    "tipsTitle": "你现在需要从分享的链接点进来才可继续！",
+    "tipsNav":  "请点右上角的<span class='task-eclipse'>···</span>按钮分享到朋友圈。",
+    "tipsNote": "如果你先前未分享到<span style='color:red;'>朋友圈</span>，这说明你还没有分享的链接，现在就分享吧。",
+    "state": 1
+  },
+  {
+    "task":"publishRoomMsg",
+    "isMustDo": false,
+    "eventTitle": "请在地微群里发言",
+    "eventNav": "地微app->桌面->选择你要发言的群",
+    "eventNote": "选择任意一个群发言一次即可，如果没有群请建一个群",
+    "tipsTitle": "你还未在地微群里发言",
+    "tipsNav":  "地微app->桌面->选择你要发言的群",
+    "tipsNote": "选择任意一个群发言一次即可，如果没有群请建一个群",
+    "state": 1
+  },
+  {
+    "task":"publishGeoDoc",
+    "isMustDo": false,
+    "eventTitle": "请在地圈里发言",
+    "eventNav": "地微app->地圈->选择你要发言的地理感知器->进入感知器点右上角的相机图标",
+    "eventNote": "发言一次后才可继续抢红包。",
+    "tipsTitle": "你还未在地圈里发言",
+    "tipsNav": "地微app->地圈->选择你要发言的地理感知器->进入感知器->点右上角的相机图标",
+    "tipsNote": "发言后才可继续抢红包，如果没有地理感知器，请新建地理感知器。",
+    "state": 1
+  },
+  {
+    "task":"publishChDoc",
+    "isMustDo": false,
+    "eventTitle": "请在网流里发言",
+    "eventNav": "地微app->网流->如果列表为空请建立管道->进入管道点右上角的相机图标",
+    "eventNote": "发言一次才可继续抢红包。",
+    "tipsTitle": "你还未在网流里发言",
+    "tipsNav": "地微app->网流->如果列表为空请建立管道->进入管道点右上角的相机图标",
+    "tipsNote": "发言后才可继续抢红包。如果没有管道，请新建管道。",
+    "state": 1
+  },
+  {
+    "task":"shareByBoss",
+    "isMustDo": false,
+    "eventTitle": "做老板赚佣金",
+    "eventNav": "地微app->桌面->点自己头像->钱包->裂变游戏·交个朋友->提取到零钱按钮->最下方'做老板赚佣金->点分享按钮'",
+    "eventNote": "去发展你的伙伴，伙伴每次提现时都会分给你10%佣金。把你的二维码分享给微信好友，让好友通过扫你的二维码抢红包，这样在他每次提现时都会向你分佣。",
+    "tipsTitle": "你还未做'做老板赚佣金'分享的任务",
+    "tipsNav": "地微app->桌面->点自己头像->钱包->裂变游戏·交个朋友->提取到零钱按钮->最下方'做老板赚佣金->点分享按钮'",
+    "tipsNote": "分享后才可继续抢红包。让别人帮你赚钱，做个老板多得劲啊，可以主动去分享你的二维码，这个任务只是提醒下你:)",
+    "state": 1
+  }
+]

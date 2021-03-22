@@ -35,7 +35,7 @@ public class CheckSessionWXUnionidValve implements IAnnotationInputValve {
     public void flow(Object request, Object response, IIPipeline pipeline) throws CircuitException {
         HttpFrame frame = (HttpFrame) request;
         String relpath = frame.relativePath();
-        if ("/".equals(relpath)||relpath.startsWith("/wechat") || isResource(relpath)) {
+        if ("/".equals(relpath)||relpath.startsWith("/wechat") || isResource(relpath)||"/portsapi/".equals(relpath)||relpath.endsWith(".ports")||relpath.endsWith(".ports/")) {
             pipeline.nextFlow(request, response, this);
             return;
         }

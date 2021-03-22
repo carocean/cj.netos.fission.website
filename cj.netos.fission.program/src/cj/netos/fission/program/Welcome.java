@@ -33,7 +33,7 @@ public class Welcome implements IGatewayAppSiteWayWebView {
     @Override
     public void flow(Frame frame, Circuit circuit, IGatewayAppSiteResource resource) throws CircuitException {
         Document document = resource.html("/wellcome.html");
-        List<Person> personList = randRecommendService.randPersons(6);
+        List<Person> personList = randRecommendService.randPersons(7);
         printPersonList(personList, document);
         circuit.content().writeBytes(document.html().getBytes());
     }
