@@ -24,7 +24,7 @@
   {
     "task":"publishRoomMsg",
     "isMustDo": false,
-    "eventTitle": "请在地微群里发言",
+    "eventTitle": "请在'地微app'的群里发言",
     "eventNav": "地微app->桌面->选择你要发言的群",
     "eventNote": "选择任意一个群发言一次即可，如果没有群请建一个群",
     "tipsTitle": "你还未在地微群里发言",
