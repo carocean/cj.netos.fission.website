@@ -152,10 +152,10 @@ body {
     position: absolute;
     left: 40px;
     right: 40px;
-    height: 150px;
+    height: 200px;
     background: white;
     top: 50%;
-    margin-top: -100px;
+    margin-top: -120px;
     border-radius: 4px;
     padding: 15px;
 }
@@ -176,6 +176,22 @@ body {
     border-top: none;
     border-right: none;
     border-left: none;
+}
+.profile-mask .mask-note{
+    padding: 10px;
+    text-align: center;
+}
+.profile-mask .mask-note label{
+    display: inline-block;
+    padding-right: 5px;
+    font-size: 12px;
+    color: #222222;
+}
+.profile-mask .mask-note span{
+    display: inline-block;
+    padding-right: 10px;
+    font-size: 12px;
+    color: red;
 }
 .profile-mask .mask-buttons{
     text-align: center;
@@ -199,6 +215,7 @@ body {
 .profile-mask .mask-buttons li.grey span{
     color: #ececec;
 }
+
 .card[friends] .card-item-subject{
     margin-bottom: 10px;
 }

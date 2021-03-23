@@ -30,13 +30,16 @@ $(document).ready(function () {
         $('.profile-mask').toggle();
 
     });
+
     $('.profile-mask .mask-confirm').on('click', function () {
         if ($(this).hasClass('grey')) {
             return;
         }
         $('.profile-mask').toggle();
-        var lowest = 100.00;
-        var val = $('.profile-mask .mask-input input').val();
+        var input = $('.profile-mask .mask-input input');
+        var lowestStr = input.attr('lowestAmount');
+        var lowest = parseFloat(lowestStr);
+        var val = input.val();
         if (val == '' || val == null || typeof val == "undefined") {
             return;
         }
@@ -45,7 +48,7 @@ $(document).ready(function () {
             var amountYuan = parseFloat(val);
             // alert(amountYuan);
             if (amountYuan < lowest) {
-                alert('起充金额至少100元');
+                alert('起充金额至少' + lowest + '元');
                 return;
             }
             amount = parseInt(amountYuan * 100);
@@ -146,22 +149,34 @@ $(document).ready(function () {
             return;
         }
         $('.mask-confirm').removeClass('grey');
+
+        try{
+            parseFloat(val);
+            var note = $(this).parents('.mask-main').find('.mask-note');
+            $.get('./get-fee-info.html',{amount:val},function (html) {
+                note.html(html);
+            }).error(function (e) {
+                alert(e.responseText);
+            });
+        }catch (e) {
+
+        }
     });
 
     $('.balance-mgr .withdraw').on('click', function () {
-        window.location.href = './nav-download.html?title=提现服务&content=提现服务需要使用地微app，提现无任何门坎。&location=地微app->桌面->点你的头像->钱包->零钱->提现';
+        window.location.href = './nav-download.html?title=提现服务&content=提现服务需要使用地微app，提现无任何门坎。&location=地微app->桌面->点你的头像->钱包->裂变游戏·交个朋友->提取到零钱；而后进入->钱包->零钱->提现';
     });
     $('.card[pay] .card-item-nav[bill]').on('click', function () {
-        window.location.href ='./cashier-bill.html';
+        window.location.href = './cashier-bill.html';
     });
-    $('.card[friends] .card-item-nav[members]').on('click',function () {
-        window.location.href='./members.html';
+    $('.card[friends] .card-item-nav[members]').on('click', function () {
+        window.location.href = './members.html';
     });
-    $('.card[friends] .card-item-nav[groups]').on('click',function () {
-        window.location.href='./groups.html';
+    $('.card[friends] .card-item-nav[groups]').on('click', function () {
+        window.location.href = './groups.html';
     });
-    $('.face .my-tag-box .my-tag-arrow').on('click',function () {
-        window.location.href='./prop-tag.html';
+    $('.face .my-tag-box .my-tag-arrow').on('click', function () {
+        window.location.href = './prop-tag.html';
     });
 });
 

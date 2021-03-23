@@ -140,6 +140,16 @@
             </TableInfo>
           </value>
         </entry>
+        <entry key="fission.mf#business_income_ratio">
+          <value>
+            <TableInfo>
+              <option name="database" value="fission.mf" />
+              <option name="domainName" value="BusinessIncomeRatio" />
+              <option name="tableComment" value="业务应收账款提点比率，即会员充值的提成&#10;会员充值应课以的服务费" />
+              <option name="tableName" value="business_income_ratio" />
+            </TableInfo>
+          </value>
+        </entry>
         <entry key="fission.mf#cashier">
           <value>
             <TableInfo>
@@ -287,6 +297,16 @@
               <option name="domainName" value="ReturnCashierRecord" />
               <option name="tableComment" value="从出纳台退金" />
               <option name="tableName" value="return_cashier_record" />
+            </TableInfo>
+          </value>
+        </entry>
+        <entry key="fission.mf#service_price">
+          <value>
+            <TableInfo>
+              <option name="database" value="fission.mf" />
+              <option name="domainName" value="ServicePrice" />
+              <option name="tableComment" value="服务定价" />
+              <option name="tableName" value="service_price" />
             </TableInfo>
           </value>
         </entry>
