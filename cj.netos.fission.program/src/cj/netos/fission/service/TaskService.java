@@ -134,7 +134,7 @@ public class TaskService extends AbstractService implements ITaskService {
         List<TaskEvent> events = pageEvent(unionid, 2, 0);
         if (events.isEmpty()) {
             //从must中随机选任务
-            int hs = Utils.hash(String.format("%s%s", unionid, UUID.randomUUID().toString())).intValue();
+            int hs = Utils.hash(String.format("%s%s", unionid, System.currentTimeMillis())).intValue();
             hs = Math.abs(hs);
             int index = hs % mustTasks.size();
             return mustTasks.get(index);
@@ -154,13 +154,13 @@ public class TaskService extends AbstractService implements ITaskService {
             }
         }
         if (!notDoInMust.isEmpty()) {//从没有做过的必选任务中任选一个
-            int hs = Utils.hash(String.format("%s%s", unionid,  UUID.randomUUID().toString())).intValue();
+            int hs = Utils.hash(String.format("%s%s", unionid,  System.currentTimeMillis())).intValue();
             hs = Math.abs(hs);
             int index = hs % notDoInMust.size();
             return notDoInMust.get(index);
         }
         //剩下的从其它任务中选一个
-        int hs = Utils.hash(String.format("%s%s", unionid,  UUID.randomUUID().toString())).intValue();
+        int hs = Utils.hash(String.format("%s%s", unionid, System.currentTimeMillis())).intValue();
         hs = Math.abs(hs);
         int index = hs % otherTasks.size();
         return otherTasks.get(index);
