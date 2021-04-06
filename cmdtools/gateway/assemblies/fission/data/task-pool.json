@@ -22,6 +22,17 @@
     "state": 1
   },
   {
+    "task":"goShop",
+    "isMustDo": false,
+    "eventTitle": "请在'地微app'的卖场签到",
+    "eventNav": "地微app->卖场",
+    "eventNote": "到卖场签到，就是进入卖场即可",
+    "tipsTitle": "你还未到卖场签到",
+    "tipsNav":  "地微app->卖场",
+    "tipsNote": "快去到卖场签到吧",
+    "state": 1
+  },
+  {
     "task":"publishRoomMsg",
     "isMustDo": false,
     "eventTitle": "请在'地微app'的群里发言",
