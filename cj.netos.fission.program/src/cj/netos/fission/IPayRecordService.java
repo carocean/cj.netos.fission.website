@@ -34,4 +34,6 @@ public interface IPayRecordService {
     List<String> pagePayerId(String principal, int limit, long offset);
 
     List<String> pagePayeeId(String principal, int limit, long offset);
+
+    long totalCommissionAmount(String id);
 }

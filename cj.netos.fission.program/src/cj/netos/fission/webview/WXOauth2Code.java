@@ -110,9 +110,11 @@ public class WXOauth2Code implements IGatewayAppSiteWayWebView, IServiceAfter {
         String referrer = frame.parameter("referrer");
         if (!StringUtil.isEmpty(referrer)) {
             referrer = Utils.getSimplePerson(referrer);
-            Person person = personService.get(referrer);
-            if (person != null) {
-                cashierService.setReferrer(unionid, person.getId(), person.getNickName());
+            if (!unionid.equals(referrer)) {
+                Person person = personService.get(referrer);
+                if (person != null) {
+                    cashierService.setReferrer(unionid, person.getId(), person.getNickName());
+                }
             }
         }
         HttpFrame httpFrame = (HttpFrame) frame;

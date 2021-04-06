@@ -3,7 +3,9 @@ package cj.netos.fission.service;
 import cj.netos.fission.IPayRecordService;
 import cj.netos.fission.mapper.CashierBalanceMapper;
 import cj.netos.fission.mapper.PayRecordMapper;
+import cj.netos.fission.mapper.WithdrawRecordMapper;
 import cj.netos.fission.model.PayRecord;
+import cj.netos.fission.model.WithdrawRecord;
 import cj.studio.ecm.annotation.CjBridge;
 import cj.studio.ecm.annotation.CjService;
 import cj.studio.ecm.annotation.CjServiceRef;
@@ -19,7 +21,8 @@ import java.util.List;
 public class PayRecordService implements IPayRecordService {
     @CjServiceRef(refByName = "mybatis.cj.netos.fission.mapper.PayRecordMapper")
     PayRecordMapper payRecordMapper;
-
+    @CjServiceRef(refByName = "mybatis.cj.netos.fission.mapper.WithdrawRecordMapper")
+    WithdrawRecordMapper withdrawRecordMapper;
     @CjTransaction
     @Override
     public List<PayRecord> pagePayee(String payer, int limit, int offset) {
@@ -48,6 +51,11 @@ public class PayRecordService implements IPayRecordService {
     @Override
     public long totalPayeeAmount(String payer) {
         return payRecordMapper.sumPayeeAmount(payer);
+    }
+    @CjTransaction
+    @Override
+    public long totalCommissionAmount(String principal) {
+        return withdrawRecordMapper.totalCommissionAmount(principal);
     }
 
     @CjTransaction

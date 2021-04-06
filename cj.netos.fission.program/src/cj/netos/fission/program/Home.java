@@ -68,6 +68,7 @@ public class Home implements IGatewayAppSiteWayWebView {
         Element recommendsE = document.select(".recommends").first();
         //其下是分享js要用到的信息
         recommendsE.attr("state", frame.parameter("state"));
+        recommendsE.attr("unionid", String.format("%s@gbrea.netos",unionid));
         recommendsE.attr("avatar", current.getPerson().getAvatarUrl());
         recommendsE.attr("nickName", current.getPerson().getNickName());
         recommendsE.attr("balance", new BigDecimal(current.getBalance()).divide(new BigDecimal("100.00"), 2, RoundingMode.DOWN).toString());
@@ -76,6 +77,8 @@ public class Home implements IGatewayAppSiteWayWebView {
         recommendsE.attr("friendCount", friendCount + "");
         long totalAmount = payRecordService.totalPayerAmount(unionid);
         recommendsE.attr("totalAmount", new BigDecimal(totalAmount).divide(new BigDecimal("100.00"), 2, RoundingMode.DOWN).toString());
+        long commissionAmount = payRecordService.totalCommissionAmount(unionid);
+        recommendsE.attr("commissionAmount", new BigDecimal(commissionAmount).divide(new BigDecimal("100.00"), 2, RoundingMode.DOWN).toString());
 //        Attachment attachment = attachmentService.getInfo(unionid);
 //        if(attachment!=null&&"image".equals(attachment.getType())){
 //            //附件的图片可能太大了，微信展示不出来，所以先注掉吧

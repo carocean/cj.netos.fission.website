@@ -4,7 +4,8 @@ if (typeof window.fission == 'undefined') {
         // alert('share state:'+state);
         // alert('md5:'+$.md5(state));
         state=$.md5('shareToWxTimeLine'+state);
-        var link = 'http://nodespower.com/fission-mf-website/?state=' + state;
+        var union=$('.recommends').attr('unionid');
+        var link = 'http://nodespower.com/fission-mf-website/?state=' + state+'&person='+union;
         //分享到朋友圈
         wx.updateTimelineShareData({//updateTimelineShareData
             title: title, // 分享标题
@@ -27,7 +28,8 @@ if (typeof window.fission == 'undefined') {
         // alert('share state:'+state);
         // alert('md5:'+$.md5(state));
         state=$.md5('shareToWxSession'+state);
-        var link = 'http://nodespower.com/fission-mf-website/?state=' + state;
+        var union=$('.recommends').attr('unionid');
+        var link = 'http://nodespower.com/fission-mf-website/?state=' + state+'&person='+union;
         wx.updateAppMessageShareData({
             title: title, // 分享标题
             desc: desc, // 分享描述
@@ -66,12 +68,13 @@ $(document).ready(function () {
             var distance = recommendE.attr('distance');
             var friendCount = recommendE.attr('friendCount');
             var totalAmount = recommendE.attr('totalAmount');//今日总收入
+            var commissionAmount = recommendE.attr('commissionAmount');
             var imgUrl = 'http://www.nodespower.com/img/redbag.jpg';
             // if (typeof attachment != 'undefined' && attachment != null && attachment != '') {
             //     imgUrl = attachment;
             // }
-            fission.sharePYC(state, '来交个朋友吧！还有红包哦。'+nickName+'已经抢了¥' + totalAmount + '元，认识了'+friendCount+'个朋友。', imgUrl);
-            fission.shareCR(state, '来交个朋友吧！还有红包哦。', imgUrl,nickName+' 已经抢了¥' + totalAmount + '元，认识了'+friendCount+'个朋友。');
+            fission.sharePYC(state, '快来抢红包啦，分享还可赚佣金。'+nickName+'已经抢了¥' + totalAmount + '，获得佣金¥'+commissionAmount+'认识了'+friendCount+'个朋友。', imgUrl);
+            fission.shareCR(state, '快来抢红包啦，分享还可赚佣金。', imgUrl,nickName+' 已经抢了¥' + totalAmount + '，获得佣金¥'+commissionAmount+'，认识了'+friendCount+'个朋友。');
             wx.getLocation({
                 type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
                 success: function (res) {

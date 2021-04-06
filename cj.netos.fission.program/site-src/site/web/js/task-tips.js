@@ -12,12 +12,13 @@ $(document).ready(function () {
     var distance = taskCenter.attr('distance');
     var friendCount = taskCenter.attr('friendCount');
     var totalAmount = taskCenter.attr('totalAmount');//今日总收入
+    var commissionAmount = taskCenter.attr('commissionAmount');
     var imgUrl = 'http://www.nodespower.com/img/redbag.jpg';
     // if (typeof attachment != 'undefined' && attachment != null && attachment != '') {
     //     imgUrl = attachment;
     // }
-    parent.fission.sharePYC(state, '来交个朋友吧！还有红包哦。'+nickName+'已经抢了¥' + totalAmount + '元，认识了'+friendCount+'个朋友。', imgUrl);
-    parent.fission.shareCR(state, '来交个朋友吧！还有红包哦。', imgUrl,nickName+' 已经抢了¥' + totalAmount + '元，认识了'+friendCount+'个朋友。');
+    parent.fission.sharePYC(state, '快来抢红包啦，分享还可赚佣金。'+nickName+'已经抢了¥' + totalAmount + '，获得佣金¥'+commissionAmount+'，认识了'+friendCount+'个朋友。', imgUrl);
+    parent.fission.shareCR(state, '快来抢红包啦，分享还可赚佣金。', imgUrl,nickName+' 已经抢了¥' + totalAmount + '，获得佣金¥'+commissionAmount+'，认识了'+friendCount+'个朋友。');
 
 
 });

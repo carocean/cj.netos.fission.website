@@ -302,4 +302,10 @@
       note = #{note,jdbcType=VARCHAR}
     where sn = #{sn,jdbcType=VARCHAR}
   </update>
+  <select id="totalCommissionAmount" parameterType="cj.netos.fission.model.WithdrawRecord" resultType="java.lang.Long">
+    select
+    IFNULL(sum(commission_amount),0)
+    from withdraw_record
+    where referrer = #{referrer,jdbcType=VARCHAR}
+  </select>
 </mapper>

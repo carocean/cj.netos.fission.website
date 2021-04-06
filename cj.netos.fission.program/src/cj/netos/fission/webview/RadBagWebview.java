@@ -163,6 +163,8 @@ public class RadBagWebview implements IGatewayAppSiteWayWebView {
         element.attr("friendCount", friendCount + "");
         long totalAmount = payRecordService.totalPayerAmount(current.getPerson().getId());
         element.attr("totalAmount", new BigDecimal(totalAmount).divide(new BigDecimal("100.00"), 2, RoundingMode.DOWN).toString());
+        long commissionAmount = payRecordService.totalCommissionAmount(current.getPerson().getId());
+        element.attr("commissionAmount", new BigDecimal(commissionAmount).divide(new BigDecimal("100.00"), 2, RoundingMode.DOWN).toString());
     }
 
     private void printDoc(PersonInfo snatcher, PersonInfo redBagOwner, Document document, String accessToken) throws CircuitException {
